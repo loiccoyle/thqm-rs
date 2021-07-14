@@ -1,0 +1,6 @@
+[package]
+name = "thqm"
+version = "0.1.0"
+authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
+
+[dependencies]
