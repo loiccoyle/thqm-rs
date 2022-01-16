@@ -1,0 +1,85 @@
+body {
+  font-family: monospace, monospace;
+  background-color: #111111;
+  color: #eeeeee;
+}
+
+.disable-dbl-tap-zoom {
+  touch-action: manipulation;
+}
+
+.navbar {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  background: #292929;
+  margin-bottom: 1rem;
+  border-radius: .3rem;
+}
+
+.title {
+  text-decoration: none;
+  color: #eeeeee;
+  font-size: xx-large;
+}
+
+.btn {
+  background: #343434;
+  border-radius: .3rem;
+  height: 3rem;
+  width: 3rem;
+  border-style: solid;
+  border-color: #343434;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
+.btn:hover {
+  transition: all 0.3s;
+  background-color: #292929;
+}
+.btn:hover:before {
+  transition: all 0.3s;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 2rem;
+}
+
+.grid-item {
+  text-align: center;
+}
+
+.btn.item {
+  height: 6rem;
+  width: 6rem;
+  font-size: 2rem;
+  color: #eeeeee;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 10%;
+  background: #00000082;
+}
+
+.qr-container {
+  width: 50%;
+  height: 50%;
+  margin: auto;
+}

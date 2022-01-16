@@ -1,3 +1,9 @@
+# helpful links:
+
+- https://github.com/Keats/tera
+- https://doc.rust-lang.org/book/ch20-01-single-threaded.html
+- https://concisecoder.io/2019/05/11/creating-a-static-http-server-with-rust-part-1/
+
 # thqm
 
 A Rust project.
@@ -7,7 +13,7 @@ A Rust project.
 
 ## Getting started
 
-This project requires Go to be installed. On OS X with Homebrew you can just run `brew install rust`.
+This project requires rust to be installed. On OS X with Homebrew you can just run `brew install rust`.
 
 Running it then should be as simple as:
 
@@ -18,4 +24,4 @@ $ ./bin/thqm
 
 ### Testing
 
-``make test``
+`make test`

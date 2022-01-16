@@ -1,6 +1,27 @@
 [package]
 name = "thqm"
+description = "asdada."
 version = "0.1.0"
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
+edition = "2018"
+readme = "README.md"
+license = "MIT"
+keywords = ["base16", "color", "color-scheme", "manager", "cli"]
+categories = ["command-line-utilities"]
+repository = "https://github.com/loiccoyle/thqm.rs"
 
 [dependencies]
+clap = "2.33.3"
+dirs = "3.0.2"
+anyhow = "1.0.42"
+log = "0.4.14"
+env_logger = "0.9.0"
+flate2 = "1.0.20"
+tar = "0.4.35"
+tera = "1"
+qrcode = "0.12.0"
+image = "0.23.14"
+tiny_http = "0.6"
+http-auth-basic = "0.2.2"
+rouille = "3.2.1"
+qrcode-generator = "4.1.2"

@@ -39,7 +39,7 @@ clean:
 .PHONY: style
 style:
 	rustfmt --version
-    cargo fmt -- --write-mode=diff
+	cargo fmt -- --write-mode=diff
 
 .PHONY: test
 test:
