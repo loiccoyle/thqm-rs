@@ -3,7 +3,7 @@
         title (str): page title.
         qrcode_button (bool): show qrcode button.
         shutdown_button (bool): show shutdown button.
-        events (list): list of strings.
+        entries (list): list of strings.
         qrcode (str): qrcode svg elements
 -#}
 <!DOCTYPE html>
@@ -44,10 +44,10 @@
     </div>
     <!-- Modal end -->
     {%- endif %}
-    <!-- list of events -->
-    {%- for e in events %}
+    <!-- list of entries -->
+    {%- for e in entries %}
     <div class='disable-dbl-tap-zoom'>
-      <button class='btn event-content' tabindex=0 role='button' onclick="fetch('./' + '{{ e }}')">
+      <button class='btn entry-content' tabindex=0 role='button' onclick="fetch('./' + '{{ e }}')">
         <pre>{{ e|safe }}</pre>
       </button>
     </div>
@@ -55,7 +55,7 @@
   </body>
   <script>
     // Get the event buttons
-    var button = Array.from(document.getElementsByClassName("event-content"));
+    var button = Array.from(document.getElementsByClassName("entry-content"));
     function addEnterToClick(element) {
       element.addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
