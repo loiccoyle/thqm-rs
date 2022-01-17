@@ -56,14 +56,14 @@ pub fn init(data_dir: &PathBuf) -> Result<()> {
 
 #[derive(Debug)]
 pub struct Style {
-    pub style_path: PathBuf,
+    pub base_path: PathBuf,
     pub template_options: Option<TemplateOptions>,
 }
 
 impl Style {
-    pub fn new(style_path: PathBuf, template_options: Option<TemplateOptions>) -> Self {
+    pub fn new(base_path: PathBuf, template_options: Option<TemplateOptions>) -> Self {
         Self {
-            style_path,
+            base_path,
             template_options,
         }
     }
@@ -73,21 +73,21 @@ impl Style {
         style_name: String,
         template_options: Option<TemplateOptions>,
     ) -> Result<Self, anyhow::Error> {
-        let style_path = data_dir.join(style_name);
-        if !style_path.is_dir() {
+        let base_path = data_dir.join(style_name);
+        if !base_path.is_dir() {
             return Err(anyhow!(format!(
                 "Style path '{}' not found.",
-                style_path.display()
+                base_path.display()
             )));
         }
         Ok(Self {
-            style_path,
+            base_path,
             template_options,
         })
     }
 
     pub fn template_path(&self) -> Result<PathBuf, anyhow::Error> {
-        let template_path = self.style_path.join("template").join("index.html");
+        let template_path = self.base_path.join("template").join("index.html");
         if !template_path.is_file() {
             return Err(anyhow!(format!(
                 "Template path '{}' not found.",
