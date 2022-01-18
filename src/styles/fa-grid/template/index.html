@@ -28,7 +28,8 @@
           </button>
         {%- endif -%}
         {%- if shutdown_button -%}
-          <button class='btn' id='shutdown-btn' tabindex='-1' type='button' title='Shutdown server' onclick='fetch("?shutdown");'>
+          <button class='btn' id='shutdown-btn' tabindex='-1' type='button' title='Shutdown server'
+            onclick='fetch("./cmd/shutdown");'>
             <img src='static/power-off-icon.svg' width=20 height=20>
           </button>
         {%- endif %}
@@ -49,9 +50,9 @@
     <div class='disable-dbl-tap-zoom grid-container'>
     {%- for e in entries %}
       <div class='grid-item'>
-        <button class='btn entry-content' tabindex=0 role='button' onclick="fetch('./' + '{{ e }}')">
-          {%- if e.split(' ')|length == 1 -%}
-          {%- set e = 'fas ' + e -%}
+        <button class='btn entry-content' tabindex=0 role='button' onclick="fetch('./select/' + '{{ e }}')">
+          {%- if e | split(pat=" ") | length == 1 -%}
+          {%- set e = 'fas ' ~ e -%}
           {%- endif -%}
           <i class='{{ e }}'></i>
         </button>

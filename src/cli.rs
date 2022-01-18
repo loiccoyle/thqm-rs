@@ -23,21 +23,22 @@ pub fn build_cli<'a, 'b>(possible_styles: &[&'a str]) -> App<'a, 'b> {
             Arg::with_name("username")
                 .help("Authentication username.")
                 .short("u")
-                .long("usename")
+                .long("username")
                 .default_value("thqm")
                 .takes_value(true),
         )
         .arg(
             Arg::with_name("password")
                 .help("Authentication password.")
-                .short("w")
-                .long("password"),
+                .short("P")
+                .long("password")
+                .takes_value(true),
         )
         .arg(
             Arg::with_name("separator")
                 .help("Entry separator.")
-                .short("s")
                 .long("separator")
+                .short("S")
                 .default_value(r"\n")
                 .takes_value(true),
         )
@@ -51,43 +52,47 @@ pub fn build_cli<'a, 'b>(possible_styles: &[&'a str]) -> App<'a, 'b> {
         )
         .arg(
             Arg::with_name("style")
-                .help("Path style.")
-                .short("y")
+                .help("Page style.")
+                .short("s")
                 .long("style")
                 .default_value("pure_html")
                 .takes_value(true)
                 .possible_values(possible_styles),
         )
-        .arg(
+        /* .arg(
             Arg::with_name("show_qrcode")
                 .help("Show the qrcode in terminal.")
                 .short("q")
                 .long("show-qrcode"),
-        )
+        ) */
         .arg(
             Arg::with_name("save_qrcode")
-                .help("Save the qrcode to file.")
+                .help("Save the qrcode image to file.")
                 .long("save-qrcode"),
         )
         .arg(
             Arg::with_name("show_url")
                 .help("Show the page url.")
-                .long("show-url"),
+                .short("U")
+                .long("show-url")
+                .takes_value(false),
         )
         .arg(
             Arg::with_name("oneshot")
-                .help("Shutdown server after first click.")
+                .help("Shutdown server after first selection.")
                 .long("oneshot")
                 .takes_value(false),
         )
         .arg(
-            Arg::with_name("no_shutdown")
-                .help("Shutdown server after first click.")
-                .long("no-shutdown"),
+            Arg::with_name("no_shutdown_button")
+                .help("Don't allow the server to be shutdown from the page.")
+                .long("no-shutdown-button")
+                .takes_value(false),
         )
         .arg(
-            Arg::with_name("no_qrcode")
-                .help("Remove qrcode button.")
-                .long("no-qrcode"),
+            Arg::with_name("no_qrcode_button")
+                .help("Don't show the qrcode on the page.")
+                .long("no-qrcode-button")
+                .takes_value(false),
         )
 }

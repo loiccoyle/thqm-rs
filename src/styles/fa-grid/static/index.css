@@ -39,6 +39,7 @@ body {
   border-color: #343434;
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+  color: #eeeeee;
 }
 .btn:hover {
   transition: all 0.3s;
@@ -46,6 +47,11 @@ body {
 }
 .btn:hover:before {
   transition: all 0.3s;
+}
+
+.entry-content {
+  width: 6rem;
+  height: 6rem;
 }
 
 .grid-container {
@@ -56,13 +62,6 @@ body {
 
 .grid-item {
   text-align: center;
-}
-
-.btn.item {
-  height: 6rem;
-  width: 6rem;
-  font-size: 2rem;
-  color: #eeeeee;
 }
 
 .modal {

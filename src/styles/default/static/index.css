@@ -39,6 +39,7 @@ body {
   border-color: #343434;
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+  color: #eeeeee;
 }
 .btn:hover {
   transition: all 0.3s;
@@ -48,7 +49,7 @@ body {
   transition: all 0.3s;
 }
 
-.event-content {
+.entry-content{
   height: 100%;
   width: 100%;
   padding: 0;

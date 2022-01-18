@@ -1,3 +1,4 @@
+use std::path;
 use std::vec::Vec;
 
 use anyhow::{anyhow, Result};
@@ -56,37 +57,50 @@ fn main() -> Result<()> {
         .parse::<u64>()?;
     debug!("Port: {}", port);
 
-    let address = format!("{address}:{port}", address = "localhost", port = port);
+    let ip = utils::get_ip()?;
+    debug!("Local ip: {:?}", ip);
+
+    let qrcode_address = utils::create_full_url(
+        &ip,
+        port,
+        args.value_of("username"),
+        args.value_of("password"),
+    );
+    if args.is_present("show_url") {
+        println!("{}", qrcode_address);
+    }
+    if args.value_of("save_qrcode").is_some() {
+        utils::save_qrcode(
+            &qrcode_address,
+            path::PathBuf::from(
+                args.value_of("save_qrcode")
+                    .ok_or_else(|| anyhow!("No qrcode save path."))?,
+            ),
+        )?;
+    }
+    let server_address = utils::create_url(&ip, port);
 
     let style_name = args.value_of("style").ok_or_else(|| anyhow!("No style."))?;
     let style = styles::Style::from_style_name(
         data_dir,
         style_name.to_string(),
         Some(styles::TemplateOptions::new(
-            "thqm".to_string(),
-            true,
-            false,
+            args.value_of("title")
+                .ok_or_else(|| anyhow!("No title."))?
+                .to_string(),
+            !args.is_present("no_qrcode_button"),
+            !args.is_present("no_shutdown_button"),
             entries,
-            utils::create_qrcode_svg_string(
-                format!("http://{address}", address = address).as_str(),
-            )
-            .ok(),
+            utils::create_qrcode_svg_string(&qrcode_address).ok(),
         )),
     )?;
 
-    server::start(&style, address.as_str())?;
-
-    /* let mut thqm_server = server::ThqmServer::new(
-        "0.0.0.0",
-        port,
-        args.value_of("username"),
-        args.value_of("password"),
+    server::start(
+        &style,
+        server_address.as_str(),
         args.is_present("oneshot"),
-        "test",
-    );
-
-    thqm_server.init();
-    thqm_server.start()?; */
-
+        args.value_of("username").map(|s| s.to_string()),
+        args.value_of("password").map(|s| s.to_string()),
+    )?;
     Ok(())
 }

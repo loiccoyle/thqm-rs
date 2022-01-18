@@ -27,7 +27,8 @@
           </button>
         {%- endif %}
         {%- if shutdown_button -%}
-          <button class='btn' id='shutdown-btn' tabindex='-1' type='button' title='Shutdown server' onclick='fetch("?shutdown");'>
+          <button class='btn' id='shutdown-btn' tabindex='-1' type='button' title='Shutdown server'
+            onclick='fetch("./cmd/shutdown");'>
             <img src='static/power-off-icon.svg' width=20 height=20>
           </button>
         {%- endif %}
@@ -47,7 +48,7 @@
     <!-- list of entries -->
     {%- for e in entries %}
     <div class='disable-dbl-tap-zoom'>
-      <button class='btn entry-content' tabindex=0 role='button' onclick="fetch('./' + '{{ e }}')">
+      <button class='btn entry-content' tabindex=0 role='button' onclick="fetch('./select/' + '{{ e }}')">
         <pre>{{ e|safe }}</pre>
       </button>
     </div>

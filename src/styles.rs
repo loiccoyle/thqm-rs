@@ -123,7 +123,6 @@ impl Style {
         context.insert("qrcode", &template_options.qrcode);
         // add stuff to context
         let result = Tera::one_off(&template_contents, &context, true)?;
-        debug!("{}", result);
         Ok(result)
     }
 }
