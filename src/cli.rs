@@ -84,15 +84,15 @@ pub fn build_cli<'a, 'b>(possible_styles: &[&'a str]) -> App<'a, 'b> {
                 .takes_value(false),
         )
         .arg(
-            Arg::with_name("no_shutdown_button")
+            Arg::with_name("no_shutdown")
                 .help("Don't allow the server to be shutdown from the page.")
-                .long("no-shutdown-button")
+                .long("no-shutdown")
                 .takes_value(false),
         )
         .arg(
-            Arg::with_name("no_qrcode_button")
+            Arg::with_name("no_qrcode")
                 .help("Don't show the qrcode on the page.")
-                .long("no-qrcode-button")
+                .long("no-qrcode")
                 .takes_value(false),
         )
 }

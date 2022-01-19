@@ -14,7 +14,8 @@ fn main() -> Result<()> {
     env_logger::init();
 
     let data_dir = utils::get_data_dir()?;
-    let config_dir = utils::get_config_dir()?;
+    // let config_dir = utils::get_config_dir()?;
+
     // Initialize styles
     styles::init(&data_dir)?;
     // Fetch the available styles
@@ -88,8 +89,8 @@ fn main() -> Result<()> {
             args.value_of("title")
                 .ok_or_else(|| anyhow!("No title."))?
                 .to_string(),
-            !args.is_present("no_qrcode_button"),
-            !args.is_present("no_shutdown_button"),
+            !args.is_present("no_qrcode"),
+            !args.is_present("no_shutdown"),
             entries,
             utils::create_qrcode_svg_string(&qrcode_address).ok(),
         )),

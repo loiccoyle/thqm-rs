@@ -2,10 +2,10 @@
     Pure html, no bells or whistles.
     args:
         title (str): page title.
-        qrcode_button (bool): show qrcode button.
-        shutdown_button (bool): show shutdown button.
+        no_qrcode (bool): don't show qrcode on page.
+        no_shutdown (bool): don't allow shutdown.
         entries (list): list of strings.
-        qrcode (str): qrcode svg elements.
+        qrcode_svg (str): qrcode svg elements.
 -#}
 <!DOCTYPE html>
 <html>
@@ -19,18 +19,18 @@
     <header>
       <div>
         <h2>{{ title }}</h1>
-        {% if qrcode_button %}
-          {{ qrcode|safe }}
+        {% if not no_qrcode %}
+          {{ qrcode_svg | safe }}
         {% endif %}
-        {% if shutdown_button %}
-          <a href="./?shutdown">shutdown</a>
+        {% if not no_shutdown %}
+          <a href="./cmd/shutdown">shutdown</a>
         {% endif %}
       </div>
     </header>
     <hr/>
     {% for e in entries %}
       <a href='./select/{{ e }}'>
-        <pre><code>{{ e|safe }}</code></pre>
+        <pre><code>{{ e | safe }}</code></pre>
       </a>
     {% endfor %}
   </body>

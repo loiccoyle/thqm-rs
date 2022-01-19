@@ -51,24 +51,50 @@ pub fn create_full_url(
             port = port
         )
     } else {
-        format!("http://{host}:{port}", host = "localhost", port = port)
+        format!("http://{host}:{port}", host = host, port = port)
     }
 }
 
-pub fn create_qrcode_svg_string(address: &str) -> Result<String> {
+pub fn create_qrcode_svg_string(data: &str) -> Result<String> {
     Ok(qrcode_generator::to_svg_to_string(
-        address,
+        data,
         qrcode_generator::QrCodeEcc::Low,
         QRCODE_SIZE,
         None::<&str>,
     )?)
 }
 
-pub fn save_qrcode(address: &str, dest: PathBuf) -> Result<()> {
+pub fn save_qrcode(data: &str, dest: PathBuf) -> Result<()> {
     Ok(qrcode_generator::to_png_to_file(
-        address,
+        data,
         qrcode_generator::QrCodeEcc::Low,
         QRCODE_SIZE,
         dest,
     )?)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_create_url() {
+        assert_eq!(create_url("test_host", 1234), "test_host:1234");
+    }
+
+    #[test]
+    fn test_create_full_url() {
+        assert_eq!(
+            create_full_url("test_host", 1234, Some("user"), Some("hunter2")),
+            "http://user:hunter2@test_host:1234"
+        );
+        assert_eq!(
+            create_full_url("test_host", 1234, None, Some("hunter2")),
+            "http://test_host:1234"
+        );
+        assert_eq!(
+            create_full_url("test_host", 1234, None, None),
+            "http://test_host:1234"
+        );
+    }
 }

@@ -117,11 +117,10 @@ impl Style {
 
         // TODO: implement a macro to do this.
         context.insert("title", &template_options.title);
-        context.insert("qrcode_button", &template_options.qrcode_button);
-        context.insert("shutdown_button", &template_options.shutdown_button);
+        context.insert("no_qrcode", &template_options.no_qrcode);
+        context.insert("no_shutdown", &template_options.no_shutdown);
         context.insert("entries", &template_options.entries);
-        context.insert("qrcode", &template_options.qrcode);
-        // add stuff to context
+        context.insert("qrcode_svg", &template_options.qrcode_svg);
         let result = Tera::one_off(&template_contents, &context, true)?;
         Ok(result)
     }
@@ -130,26 +129,119 @@ impl Style {
 #[derive(Debug)]
 pub struct TemplateOptions {
     pub title: String,
-    pub qrcode_button: bool,
-    pub shutdown_button: bool,
+    pub no_qrcode: bool,
+    pub no_shutdown: bool,
     pub entries: Vec<String>,
-    pub qrcode: Option<String>,
+    pub qrcode_svg: Option<String>,
 }
 
 impl TemplateOptions {
     pub fn new(
         title: String,
-        qrcode_button: bool,
-        shutdown_button: bool,
+        no_qrcode: bool,
+        no_shutdown: bool,
         entries: Vec<String>,
-        qrcode: Option<String>,
+        qrcode_svg: Option<String>,
     ) -> Self {
         Self {
             title,
-            qrcode_button,
-            shutdown_button,
+            no_qrcode,
+            no_shutdown,
             entries,
-            qrcode,
+            qrcode_svg,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::fs::create_dir;
+    use std::fs::remove_dir_all;
+    use std::panic;
+    use std::str::FromStr;
+
+    use super::*;
+    use crate::utils::get_data_dir;
+
+    static TEST_DIR: &str = "./test_data_dir/";
+
+    fn setup() {
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        init(&test_dir).unwrap();
+    }
+
+    fn teardown() {
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        if test_dir.is_dir() {
+            remove_dir_all(test_dir).unwrap();
+        }
+    }
+
+    fn run_test<T>(test: T) -> ()
+    where
+        T: FnOnce() -> () + panic::UnwindSafe,
+    {
+        setup();
+        let result = panic::catch_unwind(|| test());
+        teardown();
+
+        if let Err(err) = result {
+            panic::resume_unwind(err);
+        }
+    }
+
+    // TODO: fix these tests, currently there is some sort of io race happening
+    // between the setup, test and teardown
+    #[test]
+    fn test_init() {
+        run_test(|| {})
+    }
+
+    #[test]
+    fn test_fetch() {
+        run_test(|| {
+            let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+            let available_types = fetch(&test_dir).unwrap();
+            assert!(available_types.len() >= 3);
+        })
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_fetch_bad_dir() {
+        let test_dir = PathBuf::from_str("/some/dir/that/doesnt/exist/").unwrap();
+        fetch(&test_dir).unwrap();
+    }
+
+    #[test]
+    fn test_style() {
+        Style::new(PathBuf::from_str("/some/style/path").unwrap(), None);
+
+        let test_dir = get_data_dir().unwrap();
+        Style::from_style_name(test_dir, "default".to_string(), None).unwrap();
+    }
+
+    #[test]
+    fn test_style_from_name() {
+        run_test(|| {
+            let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+            Style::from_style_name(test_dir, "default".to_string(), None).unwrap();
+        })
+    }
+
+    #[test]
+    fn test_style_template_path() {
+        run_test(|| {
+            let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+            let style = Style::from_style_name(test_dir, "default".to_string(), None).unwrap();
+            style.template_path().unwrap();
+        })
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_style_panic() {
+        let test_dir = get_data_dir().unwrap();
+        Style::from_style_name(test_dir, "missing_style".to_string(), None).unwrap();
     }
 }

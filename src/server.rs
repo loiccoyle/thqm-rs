@@ -19,9 +19,6 @@ pub fn start(
         .to_owned();
 
     let server = Server::new(address, move |request| {
-        /* if login.is_some() && password.is_some() {
-            check_auth(&request, login.unwrap().as_str(), password.unwrap().as_str())
-        } */
         if login.is_some() && password.is_some() {
             match handle_auth(&request,
                                     login.as_ref().unwrap(),
