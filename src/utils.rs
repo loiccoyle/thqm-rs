@@ -25,7 +25,7 @@ pub fn read_stdin() -> Result<String> {
     let mut buffer = String::new();
     let mut stdin = io::stdin();
     stdin.read_to_string(&mut buffer)?;
-    return Ok(buffer);
+    Ok(buffer)
 }
 
 pub fn get_ip() -> Result<String> {

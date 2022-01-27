@@ -1,8 +1,8 @@
 use std::path;
 use std::vec::Vec;
 
+use anyhow::Context;
 use anyhow::{anyhow, Result};
-use env_logger;
 use log::debug;
 
 use thqm::cli;
@@ -17,7 +17,7 @@ fn main() -> Result<()> {
     // let config_dir = utils::get_config_dir()?;
 
     // Initialize styles
-    styles::init(&data_dir)?;
+    styles::init(&data_dir).context("Unpacking styles to data dir.")?;
     // Fetch the available styles
     let all_styles = styles::fetch(&data_dir)?;
     debug!("all_styles: {:?}", all_styles);

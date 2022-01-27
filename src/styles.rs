@@ -1,5 +1,5 @@
 use std::fs::DirEntry;
-use std::{fs, path::PathBuf};
+use std::{fs, path::Path, path::PathBuf};
 
 use anyhow::{anyhow, Result};
 use flate2::read::GzDecoder;
@@ -7,17 +7,24 @@ use log::debug;
 use tar::Archive;
 use tera::{Context, Tera};
 
-const INCLUDED_STYLES_TAR_GZ: &'static [u8] = include_bytes!("styles.tar.gz");
+const INCLUDED_STYLES_TAR_GZ: &[u8] = include_bytes!("styles.tar.gz");
 
-// Checks the folder to see if it has the minimum requirements to be a style
-// template.
-fn is_style(style_folder: &DirEntry) -> bool {
+///Checks the folder to see if it has the minimum requirements to be a style
+///template.
+///The style_folder to test should passes if `style_folder`/template/index.html
+///exists.
+//#
+fn is_style_entry(style_folder: &DirEntry) -> bool {
     let style_folder = style_folder.path();
-    return style_folder.is_dir() & style_folder.join("template").join("index.html").is_file();
+    is_style(&style_folder)
+}
+
+fn is_style(style_folder: &Path) -> bool {
+    style_folder.is_dir() & style_folder.join("template").join("index.html").is_file()
 }
 
 ///Fetches the available styles.
-pub fn fetch(data_dir: &PathBuf) -> Result<Vec<String>> {
+pub fn fetch(data_dir: &Path) -> Result<Vec<String>> {
     if !data_dir.is_dir() {
         return Err(anyhow!(format!(
             "Data folder {} does not exist.",
@@ -26,19 +33,19 @@ pub fn fetch(data_dir: &PathBuf) -> Result<Vec<String>> {
     }
 
     Ok(fs::read_dir(data_dir)?
-        .filter(|entry| is_style(entry.as_ref().unwrap()))
+        .filter(|entry| is_style_entry(entry.as_ref().unwrap()))
         .filter_map(|entry| {
             entry.ok().and_then(|e| {
                 e.path()
                     .file_name()
-                    .and_then(|n| n.to_str().map(|s| String::from(s)))
+                    .and_then(|n| n.to_str().map(String::from))
             })
         })
         .collect::<Vec<String>>())
 }
 
 ///Extract the styles to the data folder.
-pub fn init(data_dir: &PathBuf) -> Result<()> {
+pub fn init(data_dir: &Path) -> Result<()> {
     debug!("data_dir: {}", data_dir.display());
     if !data_dir.is_dir() {
         fs::create_dir(data_dir)?;
@@ -61,11 +68,17 @@ pub struct Style {
 }
 
 impl Style {
-    pub fn new(base_path: PathBuf, template_options: Option<TemplateOptions>) -> Self {
-        Self {
+    pub fn new(base_path: PathBuf, template_options: Option<TemplateOptions>) -> Result<Self> {
+        if !is_style(&base_path) {
+            return Err(anyhow!(
+                "{} is not a valid style directory.",
+                base_path.display()
+            ));
+        }
+        Ok(Self {
             base_path,
             template_options,
-        }
+        })
     }
 
     pub fn from_style_name(
@@ -103,9 +116,6 @@ impl Style {
     }
 
     ///Render a style's index.html
-    ///
-    ///# Arguments
-    ///* `style_path` - the path of the base directory of the style.
     pub fn render(&self) -> Result<String> {
         let template_path = self.template_path()?;
         let template_options = self
@@ -155,55 +165,43 @@ impl TemplateOptions {
 
 #[cfg(test)]
 mod tests {
-    use std::fs::create_dir;
     use std::fs::remove_dir_all;
-    use std::panic;
     use std::str::FromStr;
 
     use super::*;
     use crate::utils::get_data_dir;
+    use ctor;
 
     static TEST_DIR: &str = "./test_data_dir/";
 
+    #[cfg(test)]
+    #[ctor::ctor]
     fn setup() {
         let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
         init(&test_dir).unwrap();
     }
 
+    #[cfg(test)]
+    #[ctor::dtor]
     fn teardown() {
         let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
         if test_dir.is_dir() {
-            remove_dir_all(test_dir).unwrap();
+            remove_dir_all(&test_dir).unwrap();
+            debug!("Removed: {}", test_dir.display());
         }
     }
 
-    fn run_test<T>(test: T) -> ()
-    where
-        T: FnOnce() -> () + panic::UnwindSafe,
-    {
-        setup();
-        let result = panic::catch_unwind(|| test());
-        teardown();
-
-        if let Err(err) = result {
-            panic::resume_unwind(err);
-        }
-    }
-
-    // TODO: fix these tests, currently there is some sort of io race happening
-    // between the setup, test and teardown
     #[test]
     fn test_init() {
-        run_test(|| {})
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        init(&test_dir).unwrap();
     }
 
     #[test]
     fn test_fetch() {
-        run_test(|| {
-            let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
-            let available_types = fetch(&test_dir).unwrap();
-            assert!(available_types.len() >= 3);
-        })
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let available_styles = fetch(&test_dir).unwrap();
+        assert!(available_styles.len() >= 3);
     }
 
     #[test]
@@ -215,27 +213,46 @@ mod tests {
 
     #[test]
     fn test_style() {
-        Style::new(PathBuf::from_str("/some/style/path").unwrap(), None);
-
         let test_dir = get_data_dir().unwrap();
-        Style::from_style_name(test_dir, "default".to_string(), None).unwrap();
+        let style = Style::new(test_dir.clone().join("default"), None).unwrap();
+        assert_eq!(style.base_path, test_dir.join("default"));
+        assert!(style.template_options.is_none());
     }
 
     #[test]
     fn test_style_from_name() {
-        run_test(|| {
-            let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
-            Style::from_style_name(test_dir, "default".to_string(), None).unwrap();
-        })
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let style = Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
+        assert_eq!(style.base_path, test_dir.join("default"));
     }
 
     #[test]
     fn test_style_template_path() {
-        run_test(|| {
-            let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
-            let style = Style::from_style_name(test_dir, "default".to_string(), None).unwrap();
-            style.template_path().unwrap();
-        })
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let style = Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
+        let template_path = style.template_path().unwrap();
+        assert_eq!(
+            template_path,
+            test_dir.join("default").join("template").join("index.html")
+        );
+    }
+
+    #[test]
+    fn style_set_option() {
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let mut style =
+            Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
+        let entries = vec!["a".to_string(), "b".to_string()];
+        let options = TemplateOptions::new("test".to_string(), false, true, entries, None);
+        style.set_options(options);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_style_render_missing_options() {
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let style = Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
+        style.render().unwrap();
     }
 
     #[test]

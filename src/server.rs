@@ -11,7 +11,7 @@ pub fn start(
     login: Option<String>,
     password: Option<String>,
 ) -> Result<()> {
-    let rendered_template = style.render()?.to_owned();
+    let rendered_template = style.render()?;
     let style_base_path = style
         .base_path
         .to_str()
@@ -20,30 +20,31 @@ pub fn start(
 
     let server = Server::new(address, move |request| {
         if login.is_some() && password.is_some() {
-            match handle_auth(&request,
-                                    login.as_ref().unwrap(),
-                                    password.as_ref().unwrap()) {
-                Some(rep) => return rep,
-                None => (),
+            if let Some(rep) =
+                handle_auth(request, login.as_ref().unwrap(), password.as_ref().unwrap())
+            {
+                return rep;
             }
         }
 
         router!(request,
         (GET) (/) => {
-            Response::html(&rendered_template)
+            if let Some(command) = request.get_param("cmd") {
+                handle_cmd(command)
+            } else if let Some(entry) = request.get_param("select") {
+                handle_select(entry, oneshot)
+            } else {
+                Response::html(&rendered_template)
+            }
         },
         (GET) (/select/{entry: String}) => {
-            println!("{}", entry);
-            if oneshot {
-                exit(0);
-            }
-            Response::redirect_302("/")
+            handle_select(entry, oneshot)
         },
         (GET) (/cmd/{command: String}) => {
             handle_cmd(command)
         },
         _ => {
-            let response = match_assets(&request, &style_base_path);
+            let response = match_assets(request, &style_base_path);
             if response.is_success() {
                 response
             } else {
@@ -55,6 +56,14 @@ pub fn start(
     .unwrap();
     server.run();
     Ok(())
+}
+
+pub fn handle_select(entry: String, oneshot: bool) -> Response {
+    println!("{}", entry);
+    if oneshot {
+        exit(0);
+    }
+    Response::redirect_302("/")
 }
 
 pub fn handle_cmd(command: String) -> Response {
