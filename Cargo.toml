@@ -26,3 +26,6 @@ http-auth-basic = "0.2.2"
 rouille = "3.2.1"
 qrcode-generator = "4.1.2"
 local-ip-address = "0.4.4"
+
+[dev-dependencies]
+ctor = "0.1.21"
