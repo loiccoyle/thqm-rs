@@ -6,9 +6,13 @@ authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 edition = "2018"
 readme = "README.md"
 license = "MIT"
-keywords = ["base16", "color", "color-scheme", "manager", "cli"]
+keywords = []
 categories = ["command-line-utilities"]
 repository = "https://github.com/loiccoyle/thqm.rs"
+
+[[bin]]
+name = "thqm"
+path = "src/main.rs"
 
 [dependencies]
 clap = "2.33.3"
