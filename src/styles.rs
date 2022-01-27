@@ -211,14 +211,6 @@ mod tests {
         fetch(&test_dir).unwrap();
     }
 
-    #[test]
-    fn test_style() {
-        let test_dir = get_data_dir().unwrap();
-        init(&test_dir).unwrap();
-        let style = Style::new(test_dir.clone().join("default"), None).unwrap();
-        assert_eq!(style.base_path, test_dir.join("default"));
-        assert!(style.template_options.is_none());
-    }
 
     #[test]
     fn test_style_from_name() {
