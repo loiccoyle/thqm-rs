@@ -81,3 +81,7 @@ push: tag
 	docker push $(IMAGE_NAME):$(GIT_COMMIT)
 	docker push $(IMAGE_NAME):${VERSION}
 	docker push $(IMAGE_NAME):latest
+
+.PHONY: update_styles
+update_styles:
+	tar -czvf src/styles.tar.gz -C src/styles default fa-grid base
