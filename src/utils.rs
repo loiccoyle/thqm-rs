@@ -9,18 +9,21 @@ use qrcode_generator;
 
 static QRCODE_SIZE: usize = 512;
 
+/// Determine the system's data directory.
 pub fn get_data_dir() -> Result<PathBuf> {
     Ok(data_dir()
         .ok_or_else(|| anyhow!("Failed to get default data directory."))?
         .join("thqm"))
 }
 
+/// Determine the system's config directory.
 pub fn get_config_dir() -> Result<PathBuf> {
     Ok(preference_dir()
         .ok_or_else(|| anyhow!("Failed to get default config directory."))?
         .join("thqm"))
 }
 
+/// Read stdin.
 pub fn read_stdin() -> Result<String> {
     let mut buffer = String::new();
     let mut stdin = io::stdin();
@@ -28,14 +31,17 @@ pub fn read_stdin() -> Result<String> {
     Ok(buffer)
 }
 
+/// Ge the local ip.
 pub fn get_ip() -> Result<String> {
     Ok(local_ip_address::local_ip()?.to_string())
 }
 
+/// Create the url string.
 pub fn create_url(host: &str, port: u64) -> String {
     format!("{host}:{port}", host = host, port = port)
 }
 
+/// Create a full url string, with http basic auth if logins provided.
 pub fn create_full_url(
     host: &str,
     port: u64,
@@ -55,6 +61,7 @@ pub fn create_full_url(
     }
 }
 
+/// Construct a qrcode svg string containing the provided `data`.
 pub fn create_qrcode_svg_string(data: &str) -> Result<String> {
     Ok(qrcode_generator::to_svg_to_string(
         data,
@@ -64,6 +71,7 @@ pub fn create_qrcode_svg_string(data: &str) -> Result<String> {
     )?)
 }
 
+/// Save a qrcode image to file, containing `data`.
 pub fn save_qrcode(data: &str, dest: PathBuf) -> Result<()> {
     Ok(qrcode_generator::to_png_to_file(
         data,

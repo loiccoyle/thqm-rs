@@ -9,21 +9,19 @@ use tera::{Context, Tera};
 
 const INCLUDED_STYLES_TAR_GZ: &[u8] = include_bytes!("styles.tar.gz");
 
-///Checks the folder to see if it has the minimum requirements to be a style
-///template.
-///The style_folder to test should passes if `style_folder`/template/index.html
-///exists.
-//#
 fn is_style_entry(style_folder: &DirEntry) -> bool {
     let style_folder = style_folder.path();
     is_style(&style_folder)
 }
 
-fn is_style(style_folder: &Path) -> bool {
+/// Check the directory to see if it has the minimum requirements to be a style
+/// template.
+/// Returns `true` if `style_folder`/template/index.html exists.
+pub fn is_style(style_folder: &Path) -> bool {
     style_folder.is_dir() & style_folder.join("template").join("index.html").is_file()
 }
 
-///Fetches the available styles.
+/// Fetch the available styles in a directory.
 pub fn fetch(data_dir: &Path) -> Result<Vec<String>> {
     if !data_dir.is_dir() {
         return Err(anyhow!(format!(
@@ -44,7 +42,7 @@ pub fn fetch(data_dir: &Path) -> Result<Vec<String>> {
         .collect::<Vec<String>>())
 }
 
-///Extract the styles to the data folder.
+/// Extract the included styles to the data directory.
 pub fn init(data_dir: &Path) -> Result<()> {
     debug!("data_dir: {}", data_dir.display());
     if !data_dir.is_dir() {
@@ -99,6 +97,7 @@ impl Style {
         })
     }
 
+    /// Get the path of the style's 'index.html' template.
     pub fn template_path(&self) -> Result<PathBuf, anyhow::Error> {
         let template_path = self.base_path.join("template").join("index.html");
         if !template_path.is_file() {
@@ -110,12 +109,12 @@ impl Style {
         Ok(template_path)
     }
 
-    ///Set the style's template options.
+    /// Set the style's template options.
     pub fn set_options(&mut self, template_options: TemplateOptions) {
         self.template_options = Some(template_options);
     }
 
-    ///Render a style's index.html
+    /// Render a style's index.html
     pub fn render(&self) -> Result<String> {
         let template_path = self.template_path()?;
         let template_options = self

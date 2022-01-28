@@ -4,6 +4,7 @@ use std::process::exit;
 
 use super::styles::Style;
 
+/// Starts the rouille server.
 pub fn start(
     style: &Style,
     address: &str,
@@ -58,6 +59,9 @@ pub fn start(
     Ok(())
 }
 
+/// Handles the selection logic.
+/// Prints the selected `entry` to stdout and redirects to '/'.
+/// If `oneshot`, the server exits.
 pub fn handle_select(entry: String, oneshot: bool) -> Response {
     println!("{}", entry);
     if oneshot {
@@ -66,6 +70,8 @@ pub fn handle_select(entry: String, oneshot: bool) -> Response {
     Response::redirect_302("/")
 }
 
+/// Handles the cmd logic.
+/// If `cmd` is not recognized, returns a 404 response.
 pub fn handle_cmd(command: String) -> Response {
     match command.as_str() {
         "shutdown" => {
@@ -75,6 +81,7 @@ pub fn handle_cmd(command: String) -> Response {
     }
 }
 
+/// Handles the authentication.
 pub fn handle_auth(request: &Request, login: &str, password: &str) -> Option<Response> {
     let auth = match input::basic_http_auth(request) {
         Some(a) => a,
