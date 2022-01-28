@@ -24,6 +24,23 @@ body {
   border-radius: .3rem;
 }
 
+.custom-input {
+  position: relative;
+  align-items: center;
+  padding: 1rem 1rem;
+  background: #292929;
+  margin-bottom: 1rem;
+  border-radius: 0.3rem;
+}
+
+.custom-input-form {
+  text-align: center;
+}
+
+.custom-input-input {
+  width: 80%
+}
+
 .title {
   text-decoration: none;
   color: #eeeeee;

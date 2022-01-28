@@ -130,6 +130,7 @@ impl Style {
         context.insert("no_shutdown", &template_options.no_shutdown);
         context.insert("entries", &template_options.entries);
         context.insert("qrcode_svg", &template_options.qrcode_svg);
+        context.insert("custom_input", &template_options.custom_input);
         let result = Tera::one_off(&template_contents, &context, true)?;
         Ok(result)
     }
@@ -142,6 +143,7 @@ pub struct TemplateOptions {
     pub no_shutdown: bool,
     pub entries: Vec<String>,
     pub qrcode_svg: Option<String>,
+    pub custom_input: bool,
 }
 
 impl TemplateOptions {
@@ -151,6 +153,7 @@ impl TemplateOptions {
         no_shutdown: bool,
         entries: Vec<String>,
         qrcode_svg: Option<String>,
+        custom_input: bool,
     ) -> Self {
         Self {
             title,
@@ -158,6 +161,7 @@ impl TemplateOptions {
             no_shutdown,
             entries,
             qrcode_svg,
+            custom_input,
         }
     }
 }
@@ -210,7 +214,6 @@ mod tests {
         fetch(&test_dir).unwrap();
     }
 
-
     #[test]
     fn test_style_from_name() {
         let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
@@ -235,7 +238,7 @@ mod tests {
         let mut style =
             Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
         let entries = vec!["a".to_string(), "b".to_string()];
-        let options = TemplateOptions::new("test".to_string(), false, true, entries, None);
+        let options = TemplateOptions::new("test".to_string(), false, true, entries, None, false);
         style.set_options(options);
     }
 

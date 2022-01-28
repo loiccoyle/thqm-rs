@@ -4,7 +4,8 @@
         no_qrcode (bool): don't show qrcode button.
         no_shutdown (bool): don't show shutdown button.
         entries (list): list of strings.
-        qrcode_svg (str): qrcode svg elements
+        qrcode_svg (str): qrcode svg elements.
+        custom_input (bool): show custom inputs field.
 -#}
 <!DOCTYPE html>
 <html>
@@ -35,6 +36,14 @@
         </div>
         {%- endif %}
       </div>
+      {%- if custom_input -%}
+      <div class="custom-input">
+        <form class="custom-input-form">
+          <input class="custom-input-input" type="text" id="select" name="select" placeholder="Custom input"/>
+          <input type="submit" value="Submit"/>
+        </form>
+      </div>
+      {%- endif -%}
     </header>
     {%- if no_qrcode -%}
     <!-- Modal -->

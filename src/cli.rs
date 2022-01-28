@@ -84,6 +84,12 @@ pub fn build_cli<'a, 'b>(possible_styles: &[&'a str]) -> App<'a, 'b> {
                 .takes_value(false),
         )
         .arg(
+            Arg::with_name("custom_input")
+                .help("Show custom input field.")
+                .long("custom-input")
+                .takes_value(false),
+        )
+        .arg(
             Arg::with_name("no_shutdown")
                 .help("Don't allow the server to be shutdown from the page.")
                 .long("no-shutdown")

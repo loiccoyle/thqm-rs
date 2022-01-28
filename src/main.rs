@@ -19,7 +19,7 @@ fn main() -> Result<()> {
     // Initialize styles
     styles::init(&data_dir).context("Unpacking styles to data dir.")?;
     // Fetch the available styles
-    let all_styles = styles::fetch(&data_dir)?;
+    let all_styles = styles::fetch(&data_dir).context("Fetching styles.")?;
     debug!("all_styles: {:?}", all_styles);
 
     let args = cli::build_cli(
@@ -93,6 +93,7 @@ fn main() -> Result<()> {
             !args.is_present("no_shutdown"),
             entries,
             utils::create_qrcode_svg_string(&qrcode_address).ok(),
+            args.is_present("custom_input"),
         )),
     )?;
 
