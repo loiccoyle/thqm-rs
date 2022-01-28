@@ -1,4 +1,5 @@
 use anyhow::{anyhow, Result};
+use log::*;
 use rouille::{input, match_assets, router, Request, Response, Server};
 use std::process::exit;
 
@@ -87,9 +88,10 @@ pub fn handle_auth(request: &Request, login: &str, password: &str) -> Option<Res
         Some(a) => a,
         None => return Some(Response::basic_http_auth_login_required("thqm")),
     };
+    debug!("Handling auth: {:?}", auth);
 
     if auth.login != login || auth.password != password {
-        Some(Response::text("Bad login/password").with_status_code(403))
+        Some(Response::basic_http_auth_login_required("thqm"))
     } else {
         None
     }
