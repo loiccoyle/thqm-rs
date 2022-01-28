@@ -105,4 +105,14 @@ mod tests {
             "http://test_host:1234"
         );
     }
+
+    #[test]
+    fn test_crate_svg_string() {
+        create_qrcode_svg_string("some data").unwrap();
+    }
+
+    #[test]
+    fn test_get_ip() {
+        get_ip().unwrap();
+    }
 }
