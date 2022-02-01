@@ -1,5 +1,5 @@
 <h1 align="center">thqm</h1>
-<h3 align="center"><img src="https://i.imgur.com/gVB270Z.png" width="150"></h3>
+<h3 align="center"><img src="https://i.imgur.com/8VpsYG4.png" width="150"></h3>
 <h5 align="center">Remote command execution made easy.</h5>
 
 <p align="center">
@@ -14,10 +14,12 @@
 
 > `thqm` takes its name from the arabic تحكم, pronounced tahakum, meaning control.
 
-`thqm` is a nifty little HTTP server which reads from standard input. It dynamically generates a menu based on the provided `stdin` and outputs any button the user presses to `stdout`.
-In a sense its kind of like [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but as a HTTP servers.
+`thqm` is a nifty little HTTP server. It dynamically generates a web page based on the provided `stdin` and outputs any selected entry to `stdout`.
+In a sense, it functions similarly to [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but as a HTTP servers.
 
-This makes it very flexible and script friendly. See the [examples](./examples) folder for some scripts.
+This makes it very flexible and script friendly.
+
+**See the [examples](./examples) folder for some example scripts.**
 
 ## Getting started
 
