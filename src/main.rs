@@ -17,9 +17,9 @@ fn main() -> Result<()> {
     // let config_dir = utils::get_config_dir()?;
 
     // Initialize styles
-    styles::init(&data_dir).context("Unpacking styles to data dir.")?;
+    styles::init(&data_dir).context("Failed to init data dir.")?;
     // Fetch the available styles
-    let all_styles = styles::fetch(&data_dir).context("Fetching styles.")?;
+    let all_styles = styles::fetch(&data_dir).context("Failed to fetch available styles.")?;
     debug!("all_styles: {:?}", all_styles);
 
     let args = cli::build_cli(
@@ -31,7 +31,7 @@ fn main() -> Result<()> {
     )
     .get_matches();
 
-    let stdin = utils::read_stdin().unwrap();
+    let stdin = utils::read_stdin().context("Failed to read stdin.")?;
     debug!("stdin: {:?}", stdin);
 
     // Separator logic
