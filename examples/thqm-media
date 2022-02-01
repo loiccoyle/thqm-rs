@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# This script uses thqm to create a dashboard to control the playback and volume
+# of media playing on the host.
+# Requires xdotool, pactl
+
+media_control() {
+    while IFS= read -r event; do
+        case "$event" in
+        "Raise volume")
+            pactl set-sink-volume @DEFAULT_SINK@ +10%
+            ;;
+        "Lower volume")
+            pactl set-sink-volume @DEFAULT_SINK@ -10%
+            ;;
+        "Mute/Unmute")
+            pactl set-sink-mute @DEFAULT_SINK@ toggle
+            ;;
+        "Play/Pause")
+            xdotool key --clearmodifiers XF86AudioPlay
+            ;;
+        "Previous")
+            xdotool key --clearmodifiers XF86AudioPrev
+            ;;
+        "Next")
+            xdotool key --clearmodifiers XF86AudioNext
+            ;;
+        "Scrub right")
+            xdotool key --clearmodifiers Right
+            ;;
+        "Scrub left")
+            xdotool key --clearmodifiers Left
+            ;;
+        "Space")
+            xdotool key --clearmodifiers space
+            ;;
+        *)
+            # pass through for qr code printing
+            echo "$event"
+            ;;
+        esac
+    done
+}
+
+printf "Raise volume\nLower volume\nMute/Unmute\nPlay/Pause\nPrevious\nNext\nScrub right\nScrub left\nSpace" |
+    thqm --title="media" "$@" |
+    media_control

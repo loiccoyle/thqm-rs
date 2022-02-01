@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# This script uses thqm to create a dashboard to control the playback and volume
+# of media playing on the host, using fontawesome icons.
+# Requires xdotool, pactl
+
+media_control() {
+    while IFS= read -r event; do
+        case "$event" in
+        "fas fa-volume-up")
+            pactl set-sink-volume @DEFAULT_SINK@ +10%
+            ;;
+        "fas fa-volume-down")
+            pactl set-sink-volume @DEFAULT_SINK@ -10%
+            ;;
+        "fas fa-volume-mute")
+            pactl set-sink-mute @DEFAULT_SINK@ toggle
+            ;;
+        "fas fa-play")
+            xdotool key --clearmodifiers XF86AudioPlay
+            ;;
+        "fas fa-step-backward")
+            xdotool key --clearmodifiers XF86AudioPrev
+            ;;
+        "fas fa-step-forward")
+            xdotool key --clearmodifiers XF86AudioNext
+            ;;
+        "fas fa-arrow-right")
+            xdotool key --clearmodifiers Right
+            ;;
+        "fas fa-arrow-left")
+            xdotool key --clearmodifiers Left
+            ;;
+        "fas fa-play-circle")
+            xdotool key --clearmodifiers space
+            ;;
+        *)
+            # pass through for qr code printing
+            echo "$event"
+            ;;
+        esac
+    done
+}
+
+printf "fas fa-volume-mute\nfas fa-volume-down\nfas fa-volume-up\nfas fa-step-backward\nfas fa-play\nfas fa-step-forward\nfas fa-arrow-left\nfas fa-play-circle\nfas fa-arrow-right" |
+    thqm --title="media" --style fa-grid "$@" |
+    media_control
