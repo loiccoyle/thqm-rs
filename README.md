@@ -1,6 +1,6 @@
-<h1 align="center">thqm</h1>
+<h3 align="center">thqm</h1>
 <h3 align="center"><img src="https://i.imgur.com/8VpsYG4.png" width="150"></h3>
-<h5 align="center">Remote command execution made easy.</h5>
+<h5 align="center">Control your scripts over the network.</h5>
 
 <p align="center">
   <a href="https://github.com/loiccoyle/thqm.rs/actions/workflows/build.yml"><img src="https://github.com/loiccoyle/thqm.rs/actions/workflows/build.yml/badge.svg"></a>
@@ -8,6 +8,7 @@
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <img src="https://img.shields.io/badge/platform-linux%20%7C%20macOS%20%7C%20windows-informational">
 </p>
+<hr>
 
 <img src="https://i.imgur.com/lYwkjzP.png" align="right" width='170px'>
 <img src="https://i.imgur.com/ezJgbhX.png" align="right" width='170px'>
