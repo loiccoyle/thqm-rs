@@ -31,7 +31,7 @@ pub fn read_stdin() -> Result<String> {
     Ok(buffer)
 }
 
-/// Ge the local ip.
+/// Get the local ip.
 pub fn get_ip() -> Result<String> {
     Ok(local_ip_address::local_ip()?.to_string())
 }
