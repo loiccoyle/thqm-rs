@@ -22,17 +22,89 @@ This makes it very flexible and script friendly.
 
 **See the [examples](./examples) folder for some example scripts.**
 
-## Getting started
+## Installation
 
-This project requires rust to be installed. On OS X with Homebrew you can just run `brew install rust`.
+### Manual
 
-Running it then should be as simple as:
+To compile and install manually from this repo, you'll need `rust` installed.
+
+To compile the binary:
 
 ```console
-$ make
-$ ./bin/thqm
+$ git clone https://github.com/loiccoyle/thqm.rs
+$ cd thqm.rs
+$ cargo build --release
 ```
 
-### Testing
+The compiled binary will be located at `./target/release/thqm`.
+Just place this binary somewhere in your `$PATH`.
 
-`make test`
+### Cargo
+
+```console
+$ cargo install tba
+```
+
+### Arch linux (AUR)
+
+Using your favourite AUR helper:
+
+```console
+$ paru -S tba
+```
+
+## Usage
+
+### CLI options
+
+`thqm` has a few command line options, when in doubt see the `--help`.
+
+```console
+$ thqm --help
+tba
+```
+
+### Scripting
+
+`thqm` will generate a web page based on the provided `stdin`, the selected entry will be printed to `stdout`.
+
+For this behaviour to actually be useful, we'll need to do a bit of scripting.
+
+A typical script will look something like this:
+
+```bash
+#!/bin/sh
+
+# define the handler function, i.e. what each option should do.
+handler() {
+  while IFS= read -r event; do
+    case "$event" in
+    "Option 1")
+      # handle Option 1
+      ;;
+    "Option 2")
+      # handle Option 2
+      ;;
+    *)
+      # pass through
+      echo "$event"
+      ;;
+    esac
+  done
+}
+
+printf "Option 1\nOption 2" | thqm "$@" | handler
+# ^                                 ^      ^ Pass user selections to the handler
+# │                                 └ Forward script's options to thqm
+# └ Provide the options to thqm through stdin
+```
+
+**See the [examples](./examples) folder for some example scripts.**
+
+## Styling
+
+`thqm` comes with a few included menu styles, they will be extracted to `$XDG_DATA_DIR/thqm`.
+
+You can add your own by following the same style structure as those already included.
+
+Note: `thqm` uses [`tera`](https://docs.rs/tera/latest/tera/) templates to generate the menu.
