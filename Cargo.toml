@@ -1,12 +1,12 @@
 [package]
 name = "thqm"
-description = "asdada."
+description = "Scripts over the network."
 version = "0.1.0"
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 edition = "2018"
 readme = "README.md"
 license = "MIT"
-keywords = []
+keywords = ["scripting", "http-server", "dynamic-menu"]
 categories = ["command-line-utilities"]
 repository = "https://github.com/loiccoyle/thqm.rs"
 
