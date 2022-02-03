@@ -35,7 +35,7 @@ media_control() {
             xdotool key --clearmodifiers space
             ;;
         *)
-            # pass through for qr code printing
+            # pass through
             echo "$event"
             ;;
         esac
