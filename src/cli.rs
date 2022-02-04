@@ -8,19 +8,17 @@ pub fn build_cli<'a>(possible_styles: &'a [&'a str]) -> App<'a> {
 
 thqm generates a web page menu from standard input and outputs client selections to standard output.
 
-Examples:
-    - Basic usage:
-    $ echo 'Option 1\\nOption 2' | thqm -U
+See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
 
-    - Selection handling, see https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts:
-    $ echo 'Option 1\\nOption 2' | thqm -U | 
-        while IFS= read -r sel; do
-          case $sel in 
-          'Option 1') echo 'hello';; 
-          'Option 2') echo 'world';; 
-          *) echo \"$sel\";; 
-          esac 
-        done",
+Basic usage:
+$ echo 'Option 1\\nOption 2' | thqm -U |
+    while IFS= read -r sel; do
+      case $sel in
+      'Option 1') echo 'hello';;
+      'Option 2') echo 'world';;
+      *) echo \"$sel\";;
+      esac
+    done",
         )
         .arg(
             Arg::new("port")
