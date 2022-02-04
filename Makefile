@@ -85,4 +85,4 @@ push: tag
 .PHONY: update_styles
 update_styles:
 	@echo "Compressing styles to src/styles.tar.gz"
-	tar -czvf src/styles.tar.gz -C src/styles default fa-grid base
+	tar -czvf src/styles.tar.gz -C styles default fa-grid base
