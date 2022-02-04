@@ -15,7 +15,7 @@
 
 > `thqm` takes its name from the arabic تحكم, pronounced tahakum, meaning control.
 
-`thqm` is a nifty little HTTP server. It dynamically generates a web page based on the provided `stdin` and outputs any selected entry to `stdout`.
+`thqm` is a nifty little HTTP server. It dynamically generates a web page menu based on the provided `stdin` and outputs any selections to `stdout`.
 In a sense, it functions similarly to [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but as a HTTP servers.
 
 This makes it very flexible and script friendly.
@@ -42,7 +42,7 @@ Just place this binary somewhere in your `$PATH`.
 ### Cargo
 
 ```console
-$ cargo install tba
+$ cargo install thqm
 ```
 
 ### Arch linux (AUR)
@@ -61,7 +61,6 @@ $ paru -S tba
 
 ```console
 $ thqm --help
-tba
 ```
 
 ### Scripting

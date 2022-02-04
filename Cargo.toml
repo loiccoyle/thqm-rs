@@ -6,7 +6,6 @@ authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 edition = "2018"
 readme = "README.md"
 license = "MIT"
-license-file = "LICENSE"
 keywords = ["scripting", "http-server", "dynamic-menu"]
 categories = ["command-line-utilities", "web-programming::http-server"]
 repository = "https://github.com/loiccoyle/thqm.rs"
@@ -16,7 +15,7 @@ name = "thqm"
 path = "src/main.rs"
 
 [dependencies]
-clap = "2.33.3"
+clap = {version="3.0.14", features=["cargo"]}
 dirs = "3.0.2"
 anyhow = "1.0.42"
 log = "0.4.14"
