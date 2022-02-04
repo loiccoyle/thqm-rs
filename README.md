@@ -103,7 +103,7 @@ printf "Option 1\nOption 2" | thqm "$@" | handler
 
 ## Styling
 
-`thqm` comes with a few included menu styles, they will be extracted to `$XDG_DATA_DIR/thqm`.
+`thqm` comes with a few included menu styles, see the [styles](./styles) folder, they will be extracted to `$XDG_DATA_DIR/thqm` when `thqm` is first run.
 
 You can add your own by following the same style structure as those already included.
 
