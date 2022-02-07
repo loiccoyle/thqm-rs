@@ -7,7 +7,7 @@ use anyhow::{anyhow, Result};
 use dirs::{data_dir, preference_dir};
 use qrcode_generator;
 
-static QRCODE_SIZE: usize = 512;
+static QRCODE_SIZE: usize = 256;
 
 /// Determine the system's data directory.
 pub fn get_data_dir() -> Result<PathBuf> {
