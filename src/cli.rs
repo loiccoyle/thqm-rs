@@ -68,6 +68,12 @@ $ echo 'Option 1\\nOption 2' | thqm -U |
                 .takes_value(true)
                 .possible_values(possible_styles),
         )
+        .arg(
+            Arg::new("interface")
+                .help("Network interface to use to determine ip.")
+                .long("interface")
+                .takes_value(true)
+        )
         // TODO: Figure out a way to do this in rust
         /* .arg(
             Arg::new("show_qrcode")

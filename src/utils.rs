@@ -32,8 +32,15 @@ pub fn read_stdin() -> Result<String> {
 }
 
 /// Get the local ip.
-pub fn get_ip() -> Result<String> {
-    Ok(local_ip_address::local_ip()?.to_string())
+pub fn get_ip(interface: Option<&str>) -> Result<String> {
+    if let Some(ifa_name) = interface {
+        let interfaces = local_ip_address::list_afinet_netifas().unwrap();
+        local_ip_address::find_ifa(interfaces, ifa_name)
+            .map(|(_, ip)| ip.to_string())
+            .ok_or_else(|| anyhow!(format!("Failed to get ip for interface: {:?}", interface)))
+    } else {
+        Ok(local_ip_address::local_ip().map(|s| s.to_string())?)
+    }
 }
 
 /// Create the url string.
@@ -113,6 +120,11 @@ mod tests {
 
     #[test]
     fn test_get_ip() {
-        assert!(get_ip().is_ok());
+        assert!(get_ip(None).is_ok());
+        assert!(get_ip(Some("lo")).is_ok());
+    }
+    #[test]
+    fn test_get_ip_missing() {
+        assert!(!get_ip(Some("missing_interface")).is_ok());
     }
 }

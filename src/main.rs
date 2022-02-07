@@ -58,7 +58,8 @@ fn main() -> Result<()> {
         .parse::<u64>()?;
     debug!("Port: {}", port);
 
-    let ip = utils::get_ip()?;
+    let interface = args.value_of("interface");
+    let ip = utils::get_ip(interface).context("Failed to determine ip.")?;
     debug!("Local ip: {:?}", ip);
 
     let qrcode_address = utils::create_full_url(
@@ -103,6 +104,10 @@ fn main() -> Result<()> {
         args.is_present("oneshot"),
         args.value_of("username").map(|s| s.to_string()),
         args.value_of("password").map(|s| s.to_string()),
-    )?;
+    )
+    .context(format!(
+        "Failed to start web server at: {:?}",
+        server_address
+    ))?;
     Ok(())
 }
