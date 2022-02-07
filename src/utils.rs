@@ -108,11 +108,11 @@ mod tests {
 
     #[test]
     fn test_crate_svg_string() {
-        create_qrcode_svg_string("some data").unwrap();
+        assert!(create_qrcode_svg_string("some data").is_ok());
     }
 
     #[test]
     fn test_get_ip() {
-        get_ip().unwrap();
+        assert!(get_ip().is_ok());
     }
 }

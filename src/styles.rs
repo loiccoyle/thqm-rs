@@ -124,7 +124,7 @@ impl Style {
         let template_contents = fs::read_to_string(template_path)?;
         let mut context = Context::new();
 
-        // TODO: implement a macro to do this.
+        // TODO: maybe implement a macro to do this.
         context.insert("title", &template_options.title);
         context.insert("no_qrcode", &template_options.no_qrcode);
         context.insert("no_shutdown", &template_options.no_shutdown);
@@ -211,7 +211,7 @@ mod tests {
     #[should_panic]
     fn test_fetch_bad_dir() {
         let test_dir = PathBuf::from_str("/some/dir/that/doesnt/exist/").unwrap();
-        fetch(&test_dir).unwrap();
+        assert!(fetch(&test_dir).is_ok());
     }
 
     #[test]
@@ -247,13 +247,13 @@ mod tests {
     fn test_style_render_missing_options() {
         let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
         let style = Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
-        style.render().unwrap();
+        assert!(style.render().is_ok());
     }
 
     #[test]
     #[should_panic]
     fn test_style_panic() {
         let test_dir = get_data_dir().unwrap();
-        Style::from_style_name(test_dir, "missing_style".to_string(), None).unwrap();
+        assert!(Style::from_style_name(test_dir, "missing_style".to_string(), None).is_ok());
     }
 }
