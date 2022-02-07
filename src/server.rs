@@ -96,3 +96,20 @@ pub fn handle_auth(request: &Request, login: &str, password: &str) -> Option<Res
         None
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_handle_select() {
+        let response = handle_select("test".to_string(), false);
+        assert_eq!(response.status_code, 302)
+    }
+
+    #[test]
+    fn test_handle_cmd() {
+        let response = handle_cmd("missing_cmd".to_string());
+        assert_eq!(response.status_code, 404)
+    }
+}
