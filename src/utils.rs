@@ -121,7 +121,6 @@ mod tests {
     #[test]
     fn test_get_ip() {
         assert!(get_ip(None).is_ok());
-        assert!(get_ip(Some("lo")).is_ok());
     }
     #[test]
     fn test_get_ip_missing() {
