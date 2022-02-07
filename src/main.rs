@@ -58,8 +58,7 @@ fn main() -> Result<()> {
         .parse::<u64>()?;
     debug!("Port: {}", port);
 
-    let interface = args.value_of("interface");
-    let ip = utils::get_ip(interface).context("Failed to determine ip.")?;
+    let ip = utils::get_ip(args.value_of("interface")).context("Failed to determine ip.")?;
     debug!("Local ip: {:?}", ip);
 
     let qrcode_address = utils::create_full_url(
