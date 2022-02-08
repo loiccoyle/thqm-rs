@@ -17,7 +17,12 @@ pub fn start(
     let style_base_path = style
         .base_path
         .to_str()
-        .ok_or_else(|| anyhow!("Could not convert style base path to str."))?
+        .ok_or_else(|| {
+            anyhow!(
+                "Could not convert style base path {:?} to str.",
+                style.base_path
+            )
+        })?
         .to_owned();
 
     let server = Server::new(address, move |request| {
@@ -104,12 +109,31 @@ mod test {
     #[test]
     fn test_handle_select() {
         let response = handle_select("test".to_string(), false);
-        assert_eq!(response.status_code, 302)
+        assert_eq!(response.status_code, 302);
     }
 
     #[test]
     fn test_handle_cmd() {
         let response = handle_cmd("missing_cmd".to_string());
-        assert_eq!(response.status_code, 404)
+        assert_eq!(response.status_code, 404);
+    }
+
+    #[test]
+    fn test_handle_auth() {
+        let req = rouille::Request::fake_http("GET", "/", vec![], vec![]);
+        let resp = handle_auth(&req, "thqm", "test");
+        assert!(resp.is_some());
+
+        let req = rouille::Request::fake_http(
+            "GET",
+            "/",
+            vec![(
+                "Authorization".to_string(),
+                "Basic dGhxbTp0ZXN0".to_string(), // thqm, test
+            )],
+            vec![],
+        );
+        let resp = handle_auth(&req, "thqm", "test");
+        assert!(resp.is_none());
     }
 }
