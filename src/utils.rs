@@ -46,11 +46,24 @@ pub fn get_ip(interface: Option<&str>) -> Result<String> {
 }
 
 /// Create the url string.
+///
+/// ```
+/// use thqm::utils::create_url;
+///
+/// assert_eq!("192.168.1.1:123456", create_url("192.168.1.1", 123456));
+/// ```
 pub fn create_url(host: &str, port: u64) -> String {
     format!("{host}:{port}", host = host, port = port)
 }
 
 /// Create a full url string, with http basic auth if logins provided.
+///
+/// ```
+/// use thqm::utils::create_full_url;
+///
+/// assert_eq!("http://thqm:test@192.168.1.1:123456", create_full_url("192.168.1.1", 123456, Some("thqm"), Some("test")));
+/// assert_eq!("http://192.168.1.1:123456", create_full_url("192.168.1.1", 123456, None, None));
+/// ```
 pub fn create_full_url(
     host: &str,
     port: u64,
