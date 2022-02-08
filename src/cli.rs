@@ -74,17 +74,17 @@ $ echo 'Option 1\\nOption 2' | thqm -U |
                 .long("interface")
                 .takes_value(true)
         )
-        // TODO: Figure out a way to do this in rust
-        /* .arg(
+        .arg(
             Arg::new("show_qrcode")
                 .help("Show the qrcode in terminal.")
-                .short("q")
+                .short('q')
                 .long("show-qrcode"),
-        ) */
+        )
         .arg(
             Arg::new("save_qrcode")
                 .help("Save the qrcode image to file.")
-                .long("save-qrcode"),
+                .long("save-qrcode")
+                .takes_value(true),
         )
         .arg(
             Arg::new("show_url")

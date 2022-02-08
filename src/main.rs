@@ -1,9 +1,9 @@
-use std::path;
 use std::vec::Vec;
 
 use anyhow::Context;
 use anyhow::{anyhow, Result};
 use log::debug;
+use qrcode::QrCode;
 
 use thqm::cli;
 use thqm::server;
@@ -17,7 +17,7 @@ fn main() -> Result<()> {
     // let config_dir = utils::get_config_dir()?;
 
     // Initialize styles
-    styles::init(&data_dir).context("Failed to init data dir.")?;
+    styles::init(&data_dir).with_context(|| format!("Failed to init data dir: {:?}", data_dir))?;
     // Fetch the available styles
     let all_styles = styles::fetch(&data_dir).context("Failed to fetch available styles.")?;
     debug!("all_styles: {:?}", all_styles);
@@ -70,15 +70,16 @@ fn main() -> Result<()> {
     if args.is_present("show_url") {
         println!("{}", qrcode_address);
     }
-    if args.value_of("save_qrcode").is_some() {
-        utils::save_qrcode(
-            &qrcode_address,
-            path::PathBuf::from(
-                args.value_of("save_qrcode")
-                    .ok_or_else(|| anyhow!("No qrcode save path."))?,
-            ),
-        )?;
+    let code = QrCode::new(&qrcode_address)
+        .with_context(|| format!("Failed to generate qrcode with data: {:?}", qrcode_address))?;
+    if args.is_present("show_qrcode") {
+        utils::print_qrcode(&code);
     }
+    if let Some(code_save_path) = args.value_of("save_qrcode") {
+        utils::save_qrcode(&code, args.value_of("save_qrcode").unwrap())
+            .with_context(|| format!("Failed to save qrcode to {:?}", code_save_path))?;
+    }
+
     let server_address = utils::create_url(&ip, port);
 
     let style_name = args.value_of("style").ok_or_else(|| anyhow!("No style."))?;
@@ -92,7 +93,7 @@ fn main() -> Result<()> {
             !args.is_present("no_qrcode"),
             !args.is_present("no_shutdown"),
             entries,
-            utils::create_qrcode_svg_string(&qrcode_address).ok(),
+            Some(utils::create_qrcode_svg_string(&code)),
             args.is_present("custom_input"),
         )),
     )?;

@@ -1,13 +1,17 @@
 use std::{
     io::{self, Read},
-    path::PathBuf,
+    path::{Path, PathBuf},
 };
 
 use anyhow::{anyhow, Result};
 use dirs::data_dir;
-use qrcode_generator;
+use image::Luma;
+use qrcode::{
+    render::{svg, unicode},
+    QrCode,
+};
 
-static QRCODE_SIZE: usize = 256;
+static QRCODE_SIZE: u32 = 256;
 
 /// Determine the system's data directory.
 pub fn get_data_dir() -> Result<PathBuf> {
@@ -83,29 +87,61 @@ pub fn create_full_url(
     }
 }
 
-/// Construct a qrcode svg string containing the provided `data`.
-pub fn create_qrcode_svg_string(data: &str) -> Result<String> {
-    Ok(qrcode_generator::to_svg_to_string(
-        data,
-        qrcode_generator::QrCodeEcc::Low,
-        QRCODE_SIZE,
-        None::<&str>,
-    )?)
+/// Convert qrcode to svg string.
+pub fn create_qrcode_svg_string(code: &QrCode) -> String {
+    code.render::<svg::Color>()
+        .min_dimensions(QRCODE_SIZE, QRCODE_SIZE)
+        .build()
 }
 
-/// Save a qrcode image to file, containing `data`.
-pub fn save_qrcode(data: &str, dest: PathBuf) -> Result<()> {
-    Ok(qrcode_generator::to_png_to_file(
-        data,
-        qrcode_generator::QrCodeEcc::Low,
-        QRCODE_SIZE,
-        dest,
-    )?)
+/// Print a qrcode in the terminal.
+pub fn print_qrcode(code: &QrCode) {
+    let unicode_img = code
+        .render::<unicode::Dense1x2>()
+        .dark_color(unicode::Dense1x2::Light)
+        .light_color(unicode::Dense1x2::Dark)
+        .build();
+    println!("{}", unicode_img)
+}
+
+/// Save a qrcode to file as an image.
+pub fn save_qrcode<Q>(code: &QrCode, dest: Q) -> Result<()>
+where
+    Q: AsRef<Path>,
+{
+    let image = code
+        .render::<Luma<u8>>()
+        .min_dimensions(QRCODE_SIZE, QRCODE_SIZE)
+        .build();
+    Ok(image.save(dest)?)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use log::debug;
+    use std::fs;
+    use std::fs::remove_dir_all;
+    use std::str::FromStr;
+
+    static TEST_DIR: &str = "./utils_test_dir/";
+
+    #[cfg(test)]
+    #[ctor::ctor]
+    fn setup() {
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        fs::create_dir(test_dir).unwrap();
+    }
+
+    #[cfg(test)]
+    #[ctor::dtor]
+    fn teardown() {
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        if test_dir.is_dir() {
+            remove_dir_all(&test_dir).unwrap();
+            debug!("Removed: {}", test_dir.display());
+        }
+    }
 
     #[test]
     fn test_create_url() {
@@ -129,8 +165,27 @@ mod tests {
     }
 
     #[test]
-    fn test_crate_svg_string() {
-        assert!(create_qrcode_svg_string("some data").is_ok());
+    fn test_create_svg_string() {
+        let code = QrCode::new("test").unwrap();
+        create_qrcode_svg_string(&code);
+    }
+
+    #[test]
+    fn test_print_qrcode() {
+        let code = QrCode::new("test").unwrap();
+        print_qrcode(&code);
+    }
+
+    #[test]
+    fn test_save_qrcode() {
+        let code = QrCode::new("test").unwrap();
+        let qrcode_dest = PathBuf::from_str(TEST_DIR).unwrap().join("qrcode.png");
+        save_qrcode(&code, &qrcode_dest).unwrap();
+        assert!(qrcode_dest.is_file());
+
+        let qrcode_dest = PathBuf::from_str(TEST_DIR).unwrap().join("qrcode.jpg");
+        save_qrcode(&code, &qrcode_dest).unwrap();
+        assert!(qrcode_dest.is_file());
     }
 
     #[test]
