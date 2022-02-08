@@ -1,7 +1,7 @@
 [package]
 name = "thqm"
 description = "Scripts over the network."
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 edition = "2018"
 readme = "README.md"
