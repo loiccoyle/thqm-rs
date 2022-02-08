@@ -4,7 +4,7 @@ use std::{
 };
 
 use anyhow::{anyhow, Result};
-use dirs::{data_dir, preference_dir};
+use dirs::data_dir;
 use qrcode_generator;
 
 static QRCODE_SIZE: usize = 256;
@@ -17,11 +17,11 @@ pub fn get_data_dir() -> Result<PathBuf> {
 }
 
 /// Determine the system's config directory.
-pub fn get_config_dir() -> Result<PathBuf> {
-    Ok(preference_dir()
-        .ok_or_else(|| anyhow!("Failed to get default config directory."))?
-        .join("thqm"))
-}
+// pub fn get_config_dir() -> Result<PathBuf> {
+//     Ok(preference_dir()
+//         .ok_or_else(|| anyhow!("Failed to get default config directory."))?
+//         .join("thqm"))
+// }
 
 /// Read stdin.
 pub fn read_stdin() -> Result<String> {
@@ -33,8 +33,10 @@ pub fn read_stdin() -> Result<String> {
 
 /// Get the local ip.
 pub fn get_ip(interface: Option<&str>) -> Result<String> {
+    // This currently fails if a "tun" interface is present.
+    // There is an issue in the "local_ip_address" crate.
     if let Some(ifa_name) = interface {
-        let interfaces = local_ip_address::list_afinet_netifas().unwrap();
+        let interfaces = local_ip_address::list_afinet_netifas()?;
         local_ip_address::find_ifa(interfaces, ifa_name)
             .map(|(_, ip)| ip.to_string())
             .ok_or_else(|| anyhow!(format!("Failed to get ip for interface: {:?}", interface)))
