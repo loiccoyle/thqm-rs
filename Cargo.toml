@@ -16,6 +16,7 @@ path = "src/main.rs"
 
 [dependencies]
 clap = {version="3.0.14", features=["cargo"]}
+clap_complete = "3.0.6"
 dirs = "3.0.2"
 anyhow = "1.0.42"
 log = "0.4.14"

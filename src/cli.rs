@@ -1,8 +1,10 @@
+use std::io;
+
 use clap::{app_from_crate, App, Arg};
+use clap_complete::{generate, Generator};
 
 pub fn build_cli<'a>(possible_styles: &'a [&'a str]) -> App<'a> {
     app_from_crate!()
-        // .settings(&[AppSettings::ArgRequiredElseHelp, AppSettings::ValidArgFound])
         .about(
             "Control your scripts over the network.
 
@@ -69,10 +71,15 @@ $ echo 'Option 1\\nOption 2' | thqm -U |
                 .possible_values(possible_styles),
         )
         .arg(
+            Arg::new("list_styles")
+                .help("List available page styles.")
+                .long("list-styles"),
+        )
+        .arg(
             Arg::new("interface")
                 .help("Network interface to use to determine ip.")
                 .long("interface")
-                .takes_value(true)
+                .takes_value(true),
         )
         .arg(
             Arg::new("show_qrcode")
@@ -117,4 +124,17 @@ $ echo 'Option 1\\nOption 2' | thqm -U |
                 .long("no-qrcode")
                 .takes_value(false),
         )
+        .arg(
+            Arg::new("completion")
+                .help("Generate shell completion.")
+                .long("completion")
+                .value_name("shell")
+                .takes_value(true)
+                .possible_values(["bash", "elvish", "fish", "powershell", "zsh"]),
+        )
+}
+
+pub fn print_completions<G: Generator>(gen: G, app: &mut App) {
+    // TOOD: make completion look for installed styles.
+    generate(gen, app, app.get_name().to_string(), &mut io::stdout());
 }

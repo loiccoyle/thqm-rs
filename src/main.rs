@@ -1,7 +1,9 @@
+use std::process::exit;
 use std::vec::Vec;
 
 use anyhow::Context;
 use anyhow::{anyhow, Result};
+use clap_complete::Shell;
 use log::debug;
 use qrcode::QrCode;
 
@@ -22,14 +24,28 @@ fn main() -> Result<()> {
     let all_styles = styles::fetch(&data_dir).context("Failed to fetch available styles.")?;
     debug!("all_styles: {:?}", all_styles);
 
-    let args = cli::build_cli(
-        all_styles
-            .iter()
-            .map(String::as_str)
-            .collect::<Vec<&str>>()
-            .as_slice(),
-    )
-    .get_matches();
+    let possible_styles = all_styles
+        .iter()
+        .map(String::as_str)
+        .collect::<Vec<&str>>()
+        .as_slice()
+        .to_owned();
+    let args = cli::build_cli(&possible_styles).get_matches();
+    if args.is_present("list_styles") {
+        for style in &all_styles {
+            println!("{}", style)
+        }
+        exit(0)
+    }
+
+    if args.is_present("completion") {
+        let shell = args
+            .value_of_t::<Shell>("completion")
+            .context("Failed to generate shell completion.")?;
+        let mut app = cli::build_cli(&possible_styles);
+        cli::print_completions(shell, &mut app);
+        exit(0)
+    }
 
     let stdin = utils::read_stdin().context("Failed to read stdin.")?;
     debug!("stdin: {:?}", stdin);
