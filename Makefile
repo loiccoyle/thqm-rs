@@ -86,3 +86,14 @@ push: tag
 update_styles:
 	@echo "Compressing styles to src/styles.tar.gz"
 	tar -czvf src/styles.tar.gz -C styles default fa-grid base
+
+.PHONY: completions
+completions:
+	@echo "Generating basic shell completions."
+	cargo run --features completions -- --completions bash > completions/${BIN_NAME}
+	cargo run --features completions -- --completions zsh | \
+		sed 's/style\.]: :(.*)/style.]: :($$(thqm --list-styles))/g' | \
+		sed '/completions/d' > completions/_${BIN_NAME}
+	cargo run --features completions -- --completions fish | \
+		sed "s/style\.'.* -r -f -a \"{.*}\"/style.' -r -f -a \"(thqm --list-styles)\"/g" | \
+		sed '/completions/d' > completions/${BIN_NAME}.fish
