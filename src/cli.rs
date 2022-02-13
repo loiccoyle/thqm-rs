@@ -1,10 +1,11 @@
+use clap::{app_from_crate, App, Arg};
+#[cfg(feature = "completions")]
+use clap_complete::{generate, Generator};
+#[cfg(feature = "completions")]
 use std::io;
 
-use clap::{app_from_crate, App, Arg};
-use clap_complete::{generate, Generator};
-
 pub fn build_cli<'a>(possible_styles: &'a [&'a str]) -> App<'a> {
-    app_from_crate!()
+    let app = app_from_crate!()
         .about(
             "Control your scripts over the network.
 
@@ -123,17 +124,22 @@ $ echo 'Option 1\\nOption 2' | thqm -U |
                 .help("Don't show the qrcode on the page.")
                 .long("no-qrcode")
                 .takes_value(false),
-        )
-        .arg(
-            Arg::new("completion")
-                .help("Generate shell completion.")
-                .long("completion")
-                .value_name("shell")
-                .takes_value(true)
-                .possible_values(["bash", "elvish", "fish", "powershell", "zsh"]),
-        )
+        );
+
+    #[cfg(feature = "completions")]
+    let app = app.arg(
+        Arg::new("completions")
+            .help("Generate shell completions.")
+            .long("completions")
+            .value_name("shell")
+            .takes_value(true)
+            .possible_values(["bash", "elvish", "fish", "powershell", "zsh"]),
+    );
+
+    app
 }
 
+#[cfg(feature = "completions")]
 pub fn print_completions<G: Generator>(gen: G, app: &mut App) {
     // TOOD: make completion look for installed styles.
     generate(gen, app, app.get_name().to_string(), &mut io::stdout());

@@ -3,6 +3,7 @@ use std::vec::Vec;
 
 use anyhow::Context;
 use anyhow::{anyhow, Result};
+#[cfg(feature = "completions")]
 use clap_complete::Shell;
 use log::debug;
 use qrcode::QrCode;
@@ -38,10 +39,11 @@ fn main() -> Result<()> {
         exit(0)
     }
 
-    if args.is_present("completion") {
+    #[cfg(feature = "completions")]
+    if args.is_present("completions") {
         let shell = args
-            .value_of_t::<Shell>("completion")
-            .context("Failed to generate shell completion.")?;
+            .value_of_t::<Shell>("completions")
+            .context("Failed to generate shell completions.")?;
         let mut app = cli::build_cli(&possible_styles);
         cli::print_completions(shell, &mut app);
         exit(0)

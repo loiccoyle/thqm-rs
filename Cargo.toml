@@ -14,9 +14,12 @@ repository = "https://github.com/loiccoyle/thqm.rs"
 name = "thqm"
 path = "src/main.rs"
 
+[features]
+completions=["clap_complete"]
+
 [dependencies]
 clap = {version="3.0.14", features=["cargo"]}
-clap_complete = "3.0.6"
+clap_complete = {version="3.0.6", optional=true}
 dirs = "3.0.2"
 anyhow = "1.0.42"
 log = "0.4.14"
