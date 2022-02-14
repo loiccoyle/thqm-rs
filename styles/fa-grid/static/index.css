@@ -73,6 +73,7 @@ body {
 .entry-content {
   width: 6rem;
   height: 6rem;
+  font-size: 2rem;
 }
 
 .grid-container {
