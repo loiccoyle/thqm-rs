@@ -3,7 +3,7 @@
 <h5 align="center">Control your scripts over the network.</h5>
 
 <p align="center">
-  <a href="https://github.com/loiccoyle/thqm.rs/actions/workflows/build.yml"><img src="https://github.com/loiccoyle/thqm.rs/actions/workflows/build.yml/badge.svg"></a>
+  <a href="https://github.com/loiccoyle/thqm-rs/actions/workflows/build.yml"><img src="https://github.com/loiccoyle/thqm-rs/actions/workflows/build.yml/badge.svg"></a>
   <a href="https://crates.io/crates/thqm"><img src="https://img.shields.io/crates/v/thqm.svg"></a>
   <a href="https://aur.archlinux.org/packages/thqm/"><img src="https://img.shields.io/aur/version/thqm"></a>
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
@@ -32,7 +32,7 @@ To compile and install manually from this repo, you'll need `rust` installed.
 To compile the binary:
 
 ```console
-$ git clone https://github.com/loiccoyle/thqm.rs
+$ git clone https://github.com/loiccoyle/thqm-rs
 $ cd thqm.rs
 $ cargo build --release
 ```
