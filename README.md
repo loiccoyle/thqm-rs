@@ -5,6 +5,7 @@
 <p align="center">
   <a href="https://github.com/loiccoyle/thqm.rs/actions/workflows/build.yml"><img src="https://github.com/loiccoyle/thqm.rs/actions/workflows/build.yml/badge.svg"></a>
   <a href="https://crates.io/crates/thqm"><img src="https://img.shields.io/crates/v/thqm.svg"></a>
+  <a href="https://aur.archlinux.org/packages/thqm/"><img src="https://img.shields.io/aur/version/thqm"></a>
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <img src="https://img.shields.io/badge/platform-linux%20%7C%20macOS%20%7C%20windows-informational">
 </p>
@@ -50,7 +51,7 @@ $ cargo install thqm
 Using your favourite AUR helper:
 
 ```console
-$ paru -S tba
+$ paru -S thqm
 ```
 
 ## Usage
