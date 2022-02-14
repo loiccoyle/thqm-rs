@@ -8,7 +8,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at https://github.com/loiccoyle/thqm.rs/issues.
+Report bugs at https://github.com/loiccoyle/thqm-rs/issues.
 
 If you are reporting a bug, please include:
 
@@ -34,7 +34,7 @@ articles, and such.
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://github.com/loiccoyle/thqm.rs/issues.
+The best way to send feedback is to file an issue at https://github.com/loiccoyle/thqm-rs/issues.
 
 If you are proposing a feature:
 
@@ -50,7 +50,7 @@ Ready to contribute? Here's how to set up `thqm` for local development.
 1. Fork the `thqm` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/thqm.rs.git
+    $ git clone git@github.com:your_name_here/thqm-rs.git
 
 3. Create a branch for local development::
 
