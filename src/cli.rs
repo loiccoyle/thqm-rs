@@ -92,6 +92,7 @@ $ echo 'Option 1\\nOption 2' | thqm -U |
             Arg::new("save_qrcode")
                 .help("Save the qrcode image to file.")
                 .long("save-qrcode")
+                .value_name("path")
                 .takes_value(true),
         )
         .arg(
