@@ -60,7 +60,7 @@ pub fn start(
         }
         )
     })
-    .unwrap();
+    .expect("Failed to init the server");
     server.run();
     Ok(())
 }

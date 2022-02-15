@@ -22,7 +22,7 @@ fn main() -> Result<()> {
     // Initialize styles
     styles::init(&data_dir).with_context(|| format!("Failed to init data dir: {:?}", data_dir))?;
     // Fetch the available styles
-    let all_styles = styles::fetch(&data_dir).context("Failed to fetch available styles.")?;
+    let all_styles = styles::fetch(&data_dir).context("Failed to fetch available styles")?;
     debug!("all_styles: {:?}", all_styles);
 
     let possible_styles = all_styles
@@ -43,13 +43,13 @@ fn main() -> Result<()> {
     if args.is_present("completions") {
         let shell = args
             .value_of_t::<Shell>("completions")
-            .context("Failed to generate shell completions.")?;
+            .context("Failed to generate shell completions")?;
         let mut app = cli::build_cli(&possible_styles);
         cli::print_completions(shell, &mut app);
         exit(0)
     }
 
-    let stdin = utils::read_stdin().context("Failed to read stdin.")?;
+    let stdin = utils::read_stdin().context("Failed to read stdin")?;
     debug!("stdin: {:?}", stdin);
 
     // Separator logic
@@ -76,7 +76,7 @@ fn main() -> Result<()> {
         .parse::<u64>()?;
     debug!("Port: {}", port);
 
-    let ip = utils::get_ip(args.value_of("interface")).context("Failed to determine ip.")?;
+    let ip = utils::get_ip(args.value_of("interface")).context("Failed to determine ip")?;
     debug!("Local ip: {:?}", ip);
 
     let qrcode_address = utils::create_full_url(
