@@ -20,7 +20,7 @@ completions=["clap_complete"]
 [dependencies]
 clap = {version="3.0.14", features=["cargo"]}
 clap_complete = {version="3.0.6", optional=true}
-dirs = "3.0.2"
+dirs = "4.0.0"
 anyhow = "1.0.42"
 log = "0.4.14"
 env_logger = "0.9.0"
@@ -28,7 +28,7 @@ flate2 = "1.0.20"
 tar = "0.4.35"
 tera = "1"
 qrcode = "0.12.0"
-image = "0.23.0"
+image = {version="0.23.0", features=["jpeg", "png"], default-features = false}
 rouille = "3.2.1"
 local-ip-address = "0.4.4"
 
