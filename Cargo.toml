@@ -34,3 +34,7 @@ local-ip-address = "0.4.4"
 
 [dev-dependencies]
 ctor = "0.1.21"
+assert_cmd = "2.0.4"
+predicates = "2.1.1"
+assert_fs = "1.0.7"
+reqwest = { version = "0.11.9", features = ["blocking"] }
