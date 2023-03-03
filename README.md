@@ -33,7 +33,7 @@ To compile the binary:
 
 ```console
 $ git clone https://github.com/loiccoyle/thqm-rs
-$ cd thqm.rs
+$ cd thqm-rs
 $ cargo build --release
 ```
 
