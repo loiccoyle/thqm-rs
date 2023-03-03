@@ -62,6 +62,50 @@ $ paru -S thqm
 
 <!-- help start -->
 
+```
+$thqm --help
+thqm 0.1.4
+Loic Coyle <loic.coyle@hotmail.fr>
+Control your scripts over the network.
+
+thqm generates a web page menu from standard input and outputs client selections to standard output.
+
+See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
+
+Basic usage:
+$ echo 'Option 1\nOption 2' | thqm -U |
+    while IFS= read -r sel; do
+      case $sel in
+      'Option 1') echo 'hello';;
+      'Option 2') echo 'world';;
+      *) echo "$sel";;
+      esac
+    done
+
+USAGE:
+    thqm [OPTIONS]
+
+OPTIONS:
+        --custom-input             Show custom input field.
+    -h, --help                     Print help information
+        --interface <interface>    Network interface to use to determine ip.
+        --list-styles              List available page styles.
+        --no-qrcode                Don't show the qrcode on the page.
+        --no-shutdown              Don't allow the server to be shutdown from the page.
+        --oneshot                  Shutdown server after first selection.
+    -p, --port <port>              Set the server's port. [default: 8000]
+    -P, --password <password>      Authentication password.
+    -q, --show-qrcode              Show the qrcode in terminal.
+    -s, --style <style>            Page style. [default: default] [possible values: base, default,
+                                   fa-grid]
+    -S, --separator <separator>    Entry separator. [default: \n]
+        --save-qrcode <path>       Save the qrcode image to file.
+    -t, --title <title>            Page title. [default: thqm]
+    -u, --username <username>      Authentication username. [default: thqm]
+    -U, --show-url                 Show the page url.
+    -V, --version                  Print version information
+```
+
 <!-- help end -->
 
 ### Scripting
