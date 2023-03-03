@@ -60,9 +60,9 @@ $ paru -S thqm
 
 `thqm` has a few command line options, when in doubt see the `--help`.
 
-```console
-$ thqm --help
-```
+<!-- help start -->
+
+<!-- help end -->
 
 ### Scripting
 
