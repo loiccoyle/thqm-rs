@@ -23,7 +23,7 @@ This makes it very flexible and script friendly.
 
 **See the [examples](./examples) folder for some example scripts.**
 
-## Installation
+## 📦 Installation
 
 ### Manual
 
@@ -54,7 +54,7 @@ Using your favourite AUR helper:
 $ paru -S thqm
 ```
 
-## Usage
+## 📋 Usage
 
 ### CLI options
 
@@ -101,7 +101,7 @@ printf "Option 1\nOption 2" | thqm "$@" | handler
 
 **See the [examples](./examples) folder for some example scripts.**
 
-## Styling
+## 🎨 Styling
 
 `thqm` comes with a few included menu styles, see the [styles](./styles) folder, they will be extracted to `$XDG_DATA_DIR/thqm` when `thqm` is first run.
 
