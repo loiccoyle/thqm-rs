@@ -2,8 +2,6 @@ name: Build
 on:
   pull_request:
   push:
-    branches:
-      - main
 
 jobs:
   check:
@@ -46,6 +44,31 @@ jobs:
         with:
           command: test
           args: --lib
+
+  readme:
+    runs-on: ubuntu-latest
+    name: Update readme
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.BOT_ACCESS_TOKEN }}
+      - name: Install stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - uses: Swatinem/rust-cache@v2
+      - name: Update readme
+        run: make readme
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "ci: Update readme"
+          branch: ${{ github.head_ref }}
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
 
   # lints:
   #   name: Lints
