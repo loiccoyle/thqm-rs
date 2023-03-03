@@ -30,7 +30,7 @@ pub fn fetch(data_dir: &Path) -> Result<Vec<String>> {
         )));
     }
 
-    Ok(fs::read_dir(data_dir)?
+    let mut out = fs::read_dir(data_dir)?
         .filter(|entry| is_style_entry(entry.as_ref().unwrap()))
         .filter_map(|entry| {
             entry.ok().and_then(|e| {
@@ -39,7 +39,9 @@ pub fn fetch(data_dir: &Path) -> Result<Vec<String>> {
                     .and_then(|n| n.to_str().map(String::from))
             })
         })
-        .collect::<Vec<String>>())
+        .collect::<Vec<String>>();
+    out.sort();
+    Ok(out)
 }
 
 /// Extract the included styles to the data directory.

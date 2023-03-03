@@ -52,7 +52,7 @@ fn list_styles() -> Result<(), Box<dyn std::error::Error>> {
     cmd.arg("--list-styles");
     cmd.assert()
         .success()
-        .stdout(predicate::eq("base\nfa-grid\ndefault\n"));
+        .stdout(predicate::eq("base\ndefault\nfa-grid\n"));
     Ok(())
 }
 
