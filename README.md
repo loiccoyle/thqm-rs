@@ -1,7 +1,6 @@
 <h3 align="center">thqm</h1>
 <h3 align="center"><img src="https://i.imgur.com/8VpsYG4.png" width="150"></h3>
-<h5 align="center">Control your scripts over the network.</h5>
-
+<h5 align="center">A simple HTTP server to serve a dynamic menu for your scripts over the network.</h5>
 <p align="center">
   <a href="https://github.com/loiccoyle/thqm-rs/actions/workflows/build.yml"><img src="https://github.com/loiccoyle/thqm-rs/actions/workflows/build.yml/badge.svg"></a>
   <a href="https://crates.io/crates/thqm"><img src="https://img.shields.io/crates/v/thqm.svg"></a>
