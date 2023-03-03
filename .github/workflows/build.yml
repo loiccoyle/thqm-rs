@@ -48,7 +48,7 @@ jobs:
   readme:
     runs-on: ubuntu-latest
     name: Update readme
-    needs: [test, build]
+    needs: [test, check]
     steps:
       - uses: actions/checkout@v3
         with:
