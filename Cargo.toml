@@ -24,7 +24,7 @@ path = "src/main.rs"
 completions=["clap_complete"]
 
 [dependencies]
-clap = {version="3.0.14", features= ["std", "cargo"], default-features = false }
+clap = {version="3.0.14", features= ["cargo"] }
 clap_complete = {version="3.0.6", optional=true}
 dirs = "4.0.0"
 anyhow = "1.0.42"
