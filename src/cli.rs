@@ -1,8 +1,9 @@
 use clap::{app_from_crate, App, Arg};
 #[cfg(feature = "completions")]
-use clap_complete::{generate, Generator};
-#[cfg(feature = "completions")]
-use std::io;
+use {
+    clap_complete::{generate, Generator},
+    std::io,
+};
 
 pub fn build_cli<'a>(possible_styles: &'a [&'a str]) -> App<'a> {
     let app = app_from_crate!()
