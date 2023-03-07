@@ -67,7 +67,7 @@ thqm 0.1.6
 Loic Coyle <loic.coyle@hotmail.fr>
 A simple HTTP server to serve a dynamic menu for your scripts.
 
-thqm serves a menu from standard input and outputs client selections to standard output.
+thqm serves a menu from standard input and writes selections to standard output.
 
 See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
 
