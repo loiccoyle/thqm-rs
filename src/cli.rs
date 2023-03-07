@@ -8,9 +8,9 @@ use {
 pub fn build_cli<'a>(possible_styles: &'a [&'a str]) -> App<'a> {
     let app = app_from_crate!()
         .about(
-            "Control your scripts over the network.
+            "A simple HTTP server to serve a dynamic menu for your scripts.
 
-thqm generates a web page menu from standard input and outputs client selections to standard output.
+thqm serves a menu from standard input and outputs client selections to standard output.
 
 See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
 
