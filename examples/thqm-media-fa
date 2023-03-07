@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # This script uses thqm to create a dashboard to control the playback and volume
 # of media playing on the host, using fontawesome icons.
