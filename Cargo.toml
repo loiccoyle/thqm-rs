@@ -10,11 +10,15 @@ keywords = ["scripting", "http-server", "dynamic-menu"]
 categories = ["command-line-utilities", "web-programming::http-server"]
 repository = "https://github.com/loiccoyle/thqm-rs"
 
+[profile.dev]
+panic = "abort"
+
 [profile.release]
 opt-level = "z"
 strip=true
 codegen-units = 1
 lto = true
+panic = "abort"
 
 [[bin]]
 name = "thqm"
