@@ -62,7 +62,7 @@ $ paru -S thqm
 <!-- help start -->
 
 ```
-$thqm --help
+$ thqm --help
 thqm 0.1.6
 Loic Coyle <loic.coyle@hotmail.fr>
 Control your scripts over the network.
