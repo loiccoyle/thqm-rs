@@ -47,4 +47,4 @@ ctor = "0.1.21"
 assert_cmd = "2.0.4"
 predicates = "2.1.1"
 assert_fs = "1.0.7"
-reqwest = { version = "0.11.9", features = ["blocking"] }
+reqwest = { version = "0.11.15", features = ["blocking"] }
