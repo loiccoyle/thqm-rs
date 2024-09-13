@@ -4,10 +4,9 @@ use std::path::PathBuf;
 
 #[derive(Parser, Debug)]
 #[command(version, author = "Loic Coyle")]
-#[command(
-    about = "A simple HTTP server to serve a dynamic menu for your scripts.
+#[command(about = "A simple HTTP server to serve a dynamic menu web page.
 
-thqm serves a menu from standard input and writes selections to standard output.
+thqm generates a menu based on the standard input and writes selections to standard output.
 
 See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
 
@@ -19,8 +18,7 @@ $ echo 'Option 1\\nOption 2' | thqm -U |
       'Option 2') echo 'world';;
       *) echo \"$sel\";;
       esac
-    done"
-)]
+    done")]
 pub struct Arguments {
     /// The port to listen on.
     #[arg(short = 'p', long = "port", default_value = "8000")]

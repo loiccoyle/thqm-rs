@@ -63,9 +63,9 @@ paru -S thqm
 
 ```
 $ thqm --help
-A simple HTTP server to serve a dynamic menu for your scripts.
+A simple HTTP server to serve a dynamic menu web page.
 
-thqm serves a menu from standard input and writes selections to standard output.
+thqm generates a menu based on the standard input and writes selections to standard output.
 
 See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
 
