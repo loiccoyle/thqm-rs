@@ -1,6 +1,6 @@
 <h3 align="center">thqm</h1>
 <h3 align="center"><img src="https://i.imgur.com/8VpsYG4.png" width="150"></h3>
-<h5 align="center">A simple HTTP server to serve a dynamic menu for your scripts over the network.</h5>
+<h5 align="center">A simple HTTP server to serve a dynamic menu web page.</h5>
 <p align="center">
   <a href="https://github.com/loiccoyle/thqm-rs/actions/workflows/build.yml"><img src="https://github.com/loiccoyle/thqm-rs/actions/workflows/build.yml/badge.svg"></a>
   <a href="https://crates.io/crates/thqm"><img src="https://img.shields.io/crates/v/thqm.svg"></a>
@@ -31,9 +31,9 @@ To compile and install manually from this repo, you'll need `rust` installed.
 To compile the binary:
 
 ```console
-$ git clone https://github.com/loiccoyle/thqm-rs
-$ cd thqm-rs
-$ cargo build --release
+git clone https://github.com/loiccoyle/thqm-rs
+cd thqm-rs
+cargo build --release
 ```
 
 The compiled binary will be located at `./target/release/thqm`.
@@ -42,7 +42,7 @@ Just place this binary somewhere in your `$PATH`.
 ### Cargo
 
 ```console
-$ cargo install thqm
+cargo install thqm
 ```
 
 ### Arch linux (AUR)
@@ -50,7 +50,7 @@ $ cargo install thqm
 Using your favourite AUR helper:
 
 ```console
-$ paru -S thqm
+paru -S thqm
 ```
 
 ## 📋 Usage
@@ -63,8 +63,6 @@ $ paru -S thqm
 
 ```
 $ thqm --help
-thqm 0.1.6
-Loic Coyle <loic.coyle@hotmail.fr>
 A simple HTTP server to serve a dynamic menu for your scripts.
 
 thqm serves a menu from standard input and writes selections to standard output.
@@ -81,28 +79,25 @@ $ echo 'Option 1\nOption 2' | thqm -U |
       esac
     done
 
-USAGE:
-    thqm [OPTIONS]
+Usage: thqm [OPTIONS]
 
-OPTIONS:
-        --custom-input             Show custom input field.
-    -h, --help                     Print help information
-        --interface <interface>    Network interface to use to determine ip.
-        --list-styles              List available page styles.
-        --no-qrcode                Don't show the qrcode on the page.
-        --no-shutdown              Don't allow the server to be shutdown from the page.
-        --oneshot                  Shutdown server after first selection.
-    -p, --port <port>              Set the server's port. [default: 8000]
-    -P, --password <password>      Authentication password.
-    -q, --show-qrcode              Show the qrcode in terminal.
-    -s, --style <style>            Page style. [default: default] [possible values: base, default,
-                                   fa-grid]
-    -S, --separator <separator>    Entry separator. [default: \n]
-        --save-qrcode <path>       Save the qrcode image to file.
-    -t, --title <title>            Page title. [default: thqm]
-    -u, --username <username>      Authentication username. [default: thqm]
-    -U, --show-url                 Show the page url.
-    -V, --version                  Print version information
+Options:
+  -p, --port <PORT>            The port to listen on [default: 8000]
+  -U, --username <USERNAME>    The username to authenticate with
+  -P, --password <PASSWORD>    The password to authenticate with
+  -S, --separator <SEPARATOR>  The entry separator [default: "\n"]
+  -t, --title <TITLE>          The page title [default: thqm]
+  -s, --style <STYLE>          The page style [default: default]
+  -q, --qrcode                 Show the qrcode in terminal
+      --save-qrcode <PATH>     Save the qrcode image to file
+  -u, --url                    Show the page url
+  -o, --oneshot                Shutdown server after first selection
+  -c, --custom-input           Show custom input field
+      --list-styles            List available page styles
+      --no-shutdown            Don't allow the server to be shutdown from the page
+      --no-qrcode              Don't allow the qrcode to be shown in the page
+  -h, --help                   Print help
+  -V, --version                Print version
 ```
 
 <!-- help end -->

@@ -15,7 +15,7 @@ panic = "abort"
 
 [profile.release]
 opt-level = "z"
-strip=true
+strip = true
 codegen-units = 1
 lto = true
 panic = "abort"
@@ -24,27 +24,31 @@ panic = "abort"
 name = "thqm"
 path = "src/main.rs"
 
-[features]
-completions=["clap_complete"]
-
 [dependencies]
-clap = {version="3.0.14", features= ["cargo"] }
-clap_complete = {version="3.0.6", optional=true}
-dirs = "4.0.0"
-anyhow = "1.0.42"
+clap = { version = "4.5.17", features = ["derive"] }
+dirs = "5.0.1"
+anyhow = "1.0.88"
 log = "0.4.14"
-env_logger = { default-features = false, version = "0.9.0" }
+env_logger = { default-features = false, version = "0.11.0" }
 flate2 = "1.0.20"
-tar = { default-features = false, version = "0.4.35" }
-tera = { default-features = false, version = "1" }
-qrcode = "0.12.0"
-image = {version="0.23.0", features=["jpeg", "png"], default-features = false}
-rouille = {version="3.2.1", default-features = false}
-local-ip-address = "0.4.4"
+tar = { default-features = false, version = "0.4.41" }
+tera = { default-features = false, version = "1.20.0" }
+qrcode = "0.14.0"
+image = { version = "0.25.2", features = [
+  "jpeg",
+  "png",
+], default-features = false }
+rouille = { version = "3.2.1", default-features = false }
+local-ip-address = "0.6.2"
 
 [dev-dependencies]
-ctor = "0.1.21"
+ctor = "0.2.8"
 assert_cmd = "2.0.4"
-predicates = "2.1.1"
+predicates = "3.1.2"
 assert_fs = "1.0.7"
-reqwest = { version = "0.11.15", features = ["blocking"] }
+reqwest = { version = "0.12.7", features = ["blocking"] }
+
+[build-dependencies]
+clap = { version = "4.5.17", features = ["derive"] }
+clap_complete = { version = "4.5.6" }
+anyhow = "1.0.88"

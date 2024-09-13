@@ -1,5 +1,5 @@
 _thqm() {
-    local i cur prev opts cmds
+    local i cur prev opts cmd
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
@@ -8,8 +8,8 @@ _thqm() {
 
     for i in ${COMP_WORDS[@]}
     do
-        case "${i}" in
-            "$1")
+        case "${cmd},${i}" in
+            ",$1")
                 cmd="thqm"
                 ;;
             *)
@@ -19,7 +19,7 @@ _thqm() {
 
     case "${cmd}" in
         thqm)
-            opts="-h -V -p -u -P -S -t -s -q -U --help --version --port --username --password --separator --title --style --list-styles --interface --show-qrcode --save-qrcode --show-url --oneshot --custom-input --no-shutdown --no-qrcode"
+            opts="-p -U -P -S -t -s -q -u -o -c -h -V --port --username --password --separator --title --style --qrcode --save-qrcode --url --oneshot --custom-input --list-styles --no-shutdown --no-qrcode --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -37,7 +37,7 @@ _thqm() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                -u)
+                -U)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -66,14 +66,10 @@ _thqm() {
                     return 0
                     ;;
                 --style)
-                    COMPREPLY=($(compgen -C "thqm --list-styles" -- "${cur}"))
+                    COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 -s)
-                    COMPREPLY=($(compgen -C "thqm --list-styles" -- "${cur}"))
-                    return 0
-                    ;;
-                --interface)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -91,4 +87,8 @@ _thqm() {
     esac
 }
 
-complete -F _thqm -o bashdefault -o default thqm
+if [[ "${BASH_VERSINFO[0]}" -eq 4 && "${BASH_VERSINFO[1]}" -ge 4 || "${BASH_VERSINFO[0]}" -gt 4 ]]; then
+    complete -F _thqm -o nosort -o bashdefault -o default thqm
+else
+    complete -F _thqm -o bashdefault -o default thqm
+fi

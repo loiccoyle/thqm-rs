@@ -1,10 +1,10 @@
 use std::process::exit;
 use std::vec::Vec;
 
+use anyhow::anyhow;
 use anyhow::Context;
-use anyhow::{anyhow, Result};
-#[cfg(feature = "completions")]
-use clap_complete::Shell;
+use anyhow::Result;
+use clap::Parser;
 use log::debug;
 use qrcode::QrCode;
 
@@ -25,103 +25,90 @@ fn main() -> Result<()> {
     let all_styles = styles::fetch(&data_dir).context("Failed to fetch available styles")?;
     debug!("all_styles: {:?}", all_styles);
 
-    let possible_styles = all_styles
-        .iter()
-        .map(String::as_str)
-        .collect::<Vec<&str>>()
-        .as_slice()
-        .to_owned();
-    let args = cli::build_cli(&possible_styles).get_matches();
-    if args.is_present("list_styles") {
+    let args = cli::Arguments::parse();
+    if args.list_styles {
         for style in &all_styles {
             println!("{}", style)
         }
         exit(0)
     }
 
-    #[cfg(feature = "completions")]
-    if args.is_present("completions") {
-        let shell = args
-            .value_of_t::<Shell>("completions")
-            .context("Failed to generate shell completions")?;
-        let mut app = cli::build_cli(&possible_styles);
-        cli::print_completions(shell, &mut app);
-        exit(0)
+    if all_styles.contains(&args.style) {
+        debug!("Using style: {}", args.style);
+    } else {
+        debug!("No such style: {}", args.style);
+        return Err(anyhow!("No such style: {}", args.style));
     }
+
+    // #[cfg(feature = "completions")]
+    // if args.is_present("completions") {
+    //     let shell = args
+    //         .value_of_t::<Shell>("completions")
+    //         .context("Failed to generate shell completions")?;
+    //     let mut app = cli::build_cli(&possible_styles);
+    //     cli::print_completions(shell, &mut app);
+    //     exit(0)
+    // }
 
     let stdin = utils::read_stdin().context("Failed to read stdin")?;
     debug!("stdin: {:?}", stdin);
 
-    // Separator logic
-    let sep = args
-        .value_of("separator")
-        .ok_or_else(|| anyhow!("No separator."))?;
-    debug!("sep: {:?}", sep);
-
     // Split stdin into vec.
-    let entries: Vec<String> = if sep == r"\n" {
+    let entries: Vec<String> = if args.separator == r"\n" {
         stdin.lines().map(|s| s.to_string()).collect()
     } else {
         stdin
-            .split(sep)
-            .into_iter()
+            .split(&args.separator)
             .map(|s| s.to_string())
             .collect()
     };
     debug!("stdin entries: {:?}", entries);
 
-    let port = args
-        .value_of("port")
-        .ok_or_else(|| anyhow!("No port."))?
-        .parse::<u64>()?;
-    debug!("Port: {}", port);
-
-    let ip = utils::get_ip(args.value_of("interface")).context("Failed to determine ip")?;
+    let ip = utils::get_ip().context("Failed to determine ip")?;
     debug!("Local ip: {:?}", ip);
 
     let qrcode_address = utils::create_full_url(
         &ip,
-        port,
-        args.value_of("username"),
-        args.value_of("password"),
+        args.port,
+        args.username.as_deref(),
+        args.password.as_deref(),
     );
-    if args.is_present("show_url") {
+    if args.show_url {
         println!("{}", qrcode_address);
     }
+
     let code = QrCode::new(&qrcode_address)
         .with_context(|| format!("Failed to generate qrcode with data: {:?}", qrcode_address))?;
-    if args.is_present("show_qrcode") {
+    if args.show_qrcode {
         utils::print_qrcode(&code);
     }
-    if let Some(code_save_path) = args.value_of("save_qrcode") {
-        utils::save_qrcode(&code, args.value_of("save_qrcode").unwrap())
+
+    if let Some(code_save_path) = args.save_qrcode {
+        utils::save_qrcode(&code, code_save_path.clone())
             .with_context(|| format!("Failed to save qrcode to {:?}", code_save_path))?;
     }
 
-    let server_address = utils::create_url(&ip, port);
+    let server_address = utils::create_url(&ip, args.port);
 
-    let style_name = args.value_of("style").ok_or_else(|| anyhow!("No style."))?;
     let style = styles::Style::from_style_name(
         data_dir,
-        style_name.to_string(),
+        args.style,
         Some(styles::TemplateOptions::new(
-            args.value_of("title")
-                .ok_or_else(|| anyhow!("No title."))?
-                .to_string(),
-            !args.is_present("no_qrcode"),
-            !args.is_present("no_shutdown"),
+            args.title,
+            !args.no_qrcode,
+            !args.no_shutdown,
             entries,
             Some(utils::create_qrcode_svg_string(&code)),
-            args.is_present("custom_input"),
+            args.custom_input,
         )),
     )?;
 
     server::start(
         &style,
         server_address.as_str(),
-        args.is_present("oneshot"),
-        args.value_of("username").map(|s| s.to_string()),
-        args.value_of("password").map(|s| s.to_string()),
+        args.oneshot,
+        args.username,
+        args.password,
     )
     .context(format!(
         "Failed to start web server at: {:?}",

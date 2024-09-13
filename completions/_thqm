@@ -14,34 +14,35 @@ _thqm() {
     fi
 
     local context curcontext="$curcontext" state line
-    _arguments "${_arguments_options[@]}" \
-'-p+[Set the server'\''s port.]: : ' \
-'--port=[Set the server'\''s port.]: : ' \
-'-u+[Authentication username.]: : ' \
-'--username=[Authentication username.]: : ' \
-'-P+[Authentication password.]: : ' \
-'--password=[Authentication password.]: : ' \
-'-S+[Entry separator.]: : ' \
-'--separator=[Entry separator.]: : ' \
-'-t+[Page title.]: : ' \
-'--title=[Page title.]: : ' \
-'-s+[Page style.]: :($(thqm --list-styles))' \
-'--style=[Page style.]: :($(thqm --list-styles))' \
-'--interface=[Network interface to use to determine ip.]: : ' \
-'--save-qrcode=[Save the qrcode image to file.]: : ' \
-'-h[Print help information]' \
-'--help[Print help information]' \
-'-V[Print version information]' \
-'--version[Print version information]' \
-'--list-styles[List available page styles.]' \
-'-q[Show the qrcode in terminal.]' \
-'--show-qrcode[Show the qrcode in terminal.]' \
-'-U[Show the page url.]' \
-'--show-url[Show the page url.]' \
-'--oneshot[Shutdown server after first selection.]' \
-'--custom-input[Show custom input field.]' \
-'--no-shutdown[Don'\''t allow the server to be shutdown from the page.]' \
-'--no-qrcode[Don'\''t show the qrcode on the page.]' \
+    _arguments "${_arguments_options[@]}" : \
+'-p+[The port to listen on]:PORT: ' \
+'--port=[The port to listen on]:PORT: ' \
+'-U+[The username to authenticate with]:USERNAME: ' \
+'--username=[The username to authenticate with]:USERNAME: ' \
+'-P+[The password to authenticate with]:PASSWORD: ' \
+'--password=[The password to authenticate with]:PASSWORD: ' \
+'-S+[The entry separator]:SEPARATOR: ' \
+'--separator=[The entry separator]:SEPARATOR: ' \
+'-t+[The page title]:TITLE: ' \
+'--title=[The page title]:TITLE: ' \
+'-s+[The page style]:STYLE: ' \
+'--style=[The page style]:STYLE: ' \
+'--save-qrcode=[Save the qrcode image to file]:PATH:_files' \
+'-q[Show the qrcode in terminal]' \
+'--qrcode[Show the qrcode in terminal]' \
+'-u[Show the page url]' \
+'--url[Show the page url]' \
+'-o[Shutdown server after first selection]' \
+'--oneshot[Shutdown server after first selection]' \
+'-c[Show custom input field]' \
+'--custom-input[Show custom input field]' \
+'--list-styles[List available page styles]' \
+'--no-shutdown[Don'\''t allow the server to be shutdown from the page]' \
+'--no-qrcode[Don'\''t allow the qrcode to be shown in the page]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
 && ret=0
 }
 
@@ -51,4 +52,8 @@ _thqm_commands() {
     _describe -t commands 'thqm commands' commands "$@"
 }
 
-_thqm "$@"
+if [ "$funcstack[1]" = "_thqm" ]; then
+    _thqm "$@"
+else
+    compdef _thqm thqm
+fi

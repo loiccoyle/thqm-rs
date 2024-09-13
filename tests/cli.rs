@@ -59,14 +59,14 @@ fn list_styles() -> Result<(), Box<dyn std::error::Error>> {
 #[test]
 fn stdout_url_basic() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("thqm")?;
-    cmd.arg("-U");
+    cmd.arg("-u");
     cmd.stdout(Stdio::piped());
 
     let child = start_then_stop(&mut cmd).unwrap();
     let output = child.wait_with_output().expect("Failed to read stdout");
     assert_eq!(
         String::from_utf8_lossy(&output.stdout),
-        format!("{}\n", create_full_url(&get_ip(None)?, 8000, None, None))
+        format!("{}\n", create_full_url(&get_ip()?, 8000, None, None))
     );
     Ok(())
 }
@@ -74,7 +74,7 @@ fn stdout_url_basic() -> Result<(), Box<dyn std::error::Error>> {
 #[test]
 fn stdout_url_auth() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("thqm")?;
-    cmd.arg("-U");
+    cmd.arg("-u");
     cmd.arg("--username");
     cmd.arg("loiccoyle");
     cmd.arg("--password");
@@ -89,7 +89,7 @@ fn stdout_url_auth() -> Result<(), Box<dyn std::error::Error>> {
         String::from_utf8_lossy(&output.stdout),
         format!(
             "{}\n",
-            create_full_url(&get_ip(None)?, 8001, Some("loiccoyle"), Some("test"))
+            create_full_url(&get_ip()?, 8001, Some("loiccoyle"), Some("test"))
         )
     );
     Ok(())
@@ -117,7 +117,7 @@ fn basic_selection() -> Result<(), Box<dyn std::error::Error>> {
     cmd.stdout(Stdio::piped());
     let mut child = start(&mut cmd).unwrap();
 
-    let url = create_full_url(&get_ip(None)?, 8003, None, None);
+    let url = create_full_url(&get_ip()?, 8003, None, None);
     let url = format!("{}/select/test", url);
     reqwest::blocking::get(url).unwrap();
 
@@ -136,7 +136,7 @@ fn basic_selection_oneshot() -> Result<(), Box<dyn std::error::Error>> {
     cmd.stdout(Stdio::piped());
     let mut child = start(&mut cmd).unwrap();
 
-    let url = create_full_url(&get_ip(None)?, 8004, None, None);
+    let url = create_full_url(&get_ip()?, 8004, None, None);
     let url = format!("{}/select/test", url);
     let _ = reqwest::blocking::get(url);
     let code = child.try_wait().unwrap();
@@ -152,7 +152,7 @@ fn cmd_shutdown() -> Result<(), Box<dyn std::error::Error>> {
     cmd.stdout(Stdio::piped());
     let mut child = start(&mut cmd).unwrap();
 
-    let url = create_full_url(&get_ip(None)?, 8005, None, None);
+    let url = create_full_url(&get_ip()?, 8005, None, None);
     let url = format!("{}/cmd/shutdown", url);
     let _ = reqwest::blocking::get(url);
     let code = child.try_wait().unwrap();
