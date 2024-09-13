@@ -1,12 +1,12 @@
-use std::process::exit;
-use std::vec::Vec;
-
 use anyhow::anyhow;
 use anyhow::Context;
 use anyhow::Result;
 use clap::Parser;
 use log::debug;
 use qrcode::QrCode;
+
+use std::process::exit;
+use std::vec::Vec;
 
 use thqm::cli;
 use thqm::server;

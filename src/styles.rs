@@ -1,11 +1,11 @@
-use std::fs::DirEntry;
-use std::{fs, path::Path, path::PathBuf};
-
 use anyhow::{anyhow, Result};
 use flate2::read::GzDecoder;
 use log::debug;
 use tar::Archive;
 use tera::{Context, Tera};
+
+use std::fs::DirEntry;
+use std::{fs, path::Path, path::PathBuf};
 
 const INCLUDED_STYLES_TAR_GZ: &[u8] = include_bytes!("styles.tar.gz");
 

@@ -1,15 +1,11 @@
-use std::{
-    io::{self, Read},
-    path::{Path, PathBuf},
-};
-
 use anyhow::{anyhow, Result};
 use dirs::data_dir;
 use image::Luma;
-use qrcode::{
-    render::{svg, unicode},
-    QrCode,
-};
+use qrcode::render::{svg, unicode};
+use qrcode::QrCode;
+
+use std::io::{self, Read};
+use std::path::{Path, PathBuf};
 
 static QRCODE_SIZE: u32 = 256;
 

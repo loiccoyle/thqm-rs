@@ -3,7 +3,7 @@ use log::*;
 use rouille::{input, match_assets, router, Request, Response, Server};
 use std::process::exit;
 
-use super::styles::Style;
+use crate::styles::Style;
 
 /// Starts the rouille server.
 pub fn start(
