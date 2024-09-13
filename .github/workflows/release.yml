@@ -24,7 +24,8 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Setup toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -32,33 +33,39 @@ jobs:
           profile: minimal
           override: true
           target: ${{ matrix.target }}
+
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Run cargo build
         uses: actions-rs/cargo@v1
         with:
           use-cross: ${{ matrix.cross }}
           command: build
           args: --release --locked --target ${{ matrix.target }}
+
       - name: Extract git tag
         shell: bash
         run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF#refs/tags/})"
         id: extract_tag
+
       - name: Packaging assets
         shell: bash
         run: |
           cd target/${{ matrix.target }}/release
           cp $GITHUB_WORKSPACE/README.md README.md
           cp $GITHUB_WORKSPACE/LICENSE LICENSE
+          cp -r $GITHUB_WORKSPACE/completions completions
           tar czvf thqm-${{ steps.extract_tag.outputs.tag }}-${{ matrix.prefix }}.tar.gz thqm README.md LICENSE
           shasum -a 256 thqm-${{ steps.extract_tag.outputs.tag }}-${{ matrix.prefix }}.tar.gz > thqm-${{ steps.extract_tag.outputs.tag }}-${{ matrix.prefix }}.sha256
+
       - name: Releasing assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: target/${{ matrix.target }}/release/thqm-*
         env:
