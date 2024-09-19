@@ -40,28 +40,16 @@ fn main() -> Result<()> {
         return Err(anyhow!("No such style: {}", args.style));
     }
 
-    // #[cfg(feature = "completions")]
-    // if args.is_present("completions") {
-    //     let shell = args
-    //         .value_of_t::<Shell>("completions")
-    //         .context("Failed to generate shell completions")?;
-    //     let mut app = cli::build_cli(&possible_styles);
-    //     cli::print_completions(shell, &mut app);
-    //     exit(0)
-    // }
-
     let stdin = utils::read_stdin().context("Failed to read stdin")?;
     debug!("stdin: {:?}", stdin);
 
     // Split stdin into vec.
-    let entries: Vec<String> = if args.separator == r"\n" {
-        stdin.lines().map(|s| s.to_string()).collect()
-    } else {
-        stdin
-            .split(&args.separator)
-            .map(|s| s.to_string())
-            .collect()
-    };
+    let entries: Vec<String> = stdin
+        .split(&args.separator)
+        .map(|s| s.trim().to_string())
+        .filter(|entry| !entry.is_empty())
+        .collect();
+
     debug!("stdin entries: {:?}", entries);
 
     let ip = utils::get_ip().context("Failed to determine ip")?;
