@@ -98,9 +98,6 @@ fn main() -> Result<()> {
         args.username,
         args.password,
     )
-    .context(format!(
-        "Failed to start web server at: {:?}",
-        server_address
-    ))?;
+    .with_context(|| format!("Failed to start web server at: {:?}", server_address))?;
     Ok(())
 }
