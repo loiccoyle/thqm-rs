@@ -16,9 +16,9 @@
 > `thqm` takes its name from the arabic تحكم, pronounced tahakoom, meaning control.
 
 `thqm` is a nifty little HTTP server. It dynamically generates a web page menu based on the provided `stdin` and outputs any selections to `stdout`.
-In a sense, it functions similarly to [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but as a HTTP servers.
+In a sense, it functions similarly to [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but the menu is web page served on the local network.
 
-This makes it very flexible and script friendly.
+This makes it perfect to control scripts over the network.
 
 **See the [examples](./examples) folder for some example scripts.**
 
@@ -150,7 +150,7 @@ handler() {
       # handle Option 2
       ;;
     *)
-      # pass through
+      # pass through thqm's output
       echo "$event"
       ;;
     esac
