@@ -57,10 +57,13 @@ body {
   margin-left: 0.2rem;
   margin-right: 0.2rem;
   color: #eeeeee;
+  cursor: pointer;
 }
 .btn:hover {
   transition: all 0.3s;
-  background-color: #292929;
+  background-color: #444444;
+  border-color: #444444;
+  box-shadow: 0.1rem 0.1rem 0.1rem 0 #111111;
 }
 .btn:hover:before {
   transition: all 0.3s;
@@ -87,6 +90,8 @@ body {
 
 .modal {
   display: none;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   z-index: 1;
   left: 0;
@@ -94,12 +99,17 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  padding-top: 10%;
   background: #00000082;
+  backdrop-filter: blur(0.5rem);
+  animation-name: fadeIn;
+  animation-duration: 0.2s;
 }
 
-.qr-container {
-  width: 50%;
-  height: 50%;
-  margin: auto;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
