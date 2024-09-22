@@ -21,14 +21,14 @@
     <header>
       <div class="navbar">
         <a href='/' tabindex='-1' class="title">{{ title }}</a>
-        {%- if no_qrcode or no_shutdown -%}
+        {%- if not no_qrcode or not no_shutdown -%}
         <div>
-        {%- if no_qrcode -%}
+        {%- if not no_qrcode -%}
           <button class='btn' id='qrcode-btn' tabindex='-1' type='button' title='Show QR code' onclick="document.getElementById('qrcode').style.display='flex'">
             <img src='static/qrcode-icon.svg' width=20 height=20>
           </button>
         {%- endif -%}
-        {%- if no_shutdown -%}
+        {%- if not no_shutdown -%}
           <button class='btn' id='shutdown-btn' tabindex='-1' type='button' title='Shutdown server'
             onclick='fetch("./cmd/shutdown");'>
             <img src='static/power-off-icon.svg' width=20 height=20>
@@ -46,7 +46,7 @@
       </div>
       {%- endif -%}
     </header>
-    {%- if no_qrcode -%}
+    {%- if not no_qrcode -%}
     <!-- Modal -->
     <div class="modal" id="qrcode" tabindex="-1" role="dialog" onclick="document.getElementById('qrcode').style.display='none'">
       {{ qrcode_svg | safe }}

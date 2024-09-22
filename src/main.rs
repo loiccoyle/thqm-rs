@@ -83,8 +83,8 @@ fn main() -> Result<()> {
         args.style,
         Some(styles::TemplateOptions::new(
             args.title,
-            !args.no_qrcode,
-            !args.no_shutdown,
+            args.no_qrcode,
+            args.no_shutdown,
             entries,
             Some(utils::create_qrcode_svg_string(&code)),
             args.custom_input,
