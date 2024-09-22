@@ -39,10 +39,34 @@ cargo build --release
 The compiled binary will be located at `./target/release/thqm`.
 Just place this binary somewhere in your `$PATH`.
 
+You'll also need to provide `thqm` with some style templates, so copy the included styles to either the system data folder `/usr/share/thqm` or your user data folder `${XDG_DATA_DIR}/thqm`.
+
+```console
+# To install system wide
+mkdir -p /usr/share/thqm
+cp -r styles/. /usr/share/thqm
+# To install per user
+mkdir -p ~/.local/share/thqm
+cp -r styles/. ~/.local/share/thqm
+```
+
 ### Cargo
 
 ```console
 cargo install thqm
+```
+
+You'll also need to provide `thqm` with some style templates, so copy the included styles to either the system data folder `/usr/share/thqm` or your user data folder `${XDG_DATA_DIR}/thqm`.
+
+```console
+git clone https://github.com/loiccoyle/thqm-rs
+cd thqm-rs
+# To install system wide
+mkdir -p /usr/share/thqm
+cp -r styles/. /usr/share/thqm
+# To install per user
+mkdir -p ~/.local/share/thqm
+cp -r styles/. ~/.local/share/thqm
 ```
 
 ### Arch linux (AUR)
@@ -52,6 +76,8 @@ Using your favourite AUR helper:
 ```console
 paru -S thqm
 ```
+
+The installation process will install the styles system wide in the `/usr/share/thqm` folder.
 
 ## 📋 Usage
 
@@ -141,7 +167,7 @@ printf "Option 1\nOption 2" | thqm "$@" | handler
 
 ## 🎨 Styling
 
-`thqm` comes with a few included menu styles, see the [styles](./styles) folder, they will be extracted to `$XDG_DATA_DIR/thqm` when `thqm` is first run.
+`thqm` comes with a few included menu styles, see the [styles](./styles) folder. You can also place custom styles in your `${XDG_DATA_DIR}/thqm` folder. User provided styles take priority over system wide styles.
 
 You can add your own by following the same style structure as those already included.
 

@@ -82,11 +82,6 @@ push: tag
 	docker push $(IMAGE_NAME):${VERSION}
 	docker push $(IMAGE_NAME):latest
 
-.PHONY: update_styles
-update_styles:
-	@echo "Compressing styles to src/styles.tar.gz"
-	tar -czvf src/styles.tar.gz -C styles default fa-grid base
-
 .PHONY:readme
 readme:
 	@awk -i inplace -v q="\`\`\`" 'BEGIN {p=1} /^<!-- help start -->/{print;print "";print q;print "$$ thqm --help";system("cargo run -- -h");print q;print "";p=0} /^<!-- help end -->/{p=1} p' README.md

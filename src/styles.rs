@@ -1,13 +1,8 @@
 use anyhow::{anyhow, Result};
-use flate2::read::GzDecoder;
-use log::debug;
-use tar::Archive;
 use tera::{Context, Tera};
 
 use std::fs::DirEntry;
 use std::{fs, path::Path, path::PathBuf};
-
-const INCLUDED_STYLES_TAR_GZ: &[u8] = include_bytes!("styles.tar.gz");
 
 fn is_style_entry(style_folder: &DirEntry) -> bool {
     let style_folder = style_folder.path();
@@ -22,7 +17,7 @@ pub fn is_style(style_folder: &Path) -> bool {
 }
 
 /// Fetch the available styles in a directory.
-pub fn fetch(data_dir: &Path) -> Result<Vec<String>> {
+pub fn fetch(data_dir: &Path) -> Result<Vec<PathBuf>> {
     if !data_dir.is_dir() {
         return Err(anyhow!(format!(
             "Data folder {} does not exist.",
@@ -31,34 +26,12 @@ pub fn fetch(data_dir: &Path) -> Result<Vec<String>> {
     }
 
     let mut out = fs::read_dir(data_dir)?
-        .filter(|entry| is_style_entry(entry.as_ref().unwrap()))
-        .filter_map(|entry| {
-            entry.ok().and_then(|e| {
-                e.path()
-                    .file_name()
-                    .and_then(|n| n.to_str().map(String::from))
-            })
-        })
-        .collect::<Vec<String>>();
+        .filter_map(|entry| entry.ok())
+        .filter(is_style_entry)
+        .map(|entry| entry.path())
+        .collect::<Vec<_>>();
     out.sort();
     Ok(out)
-}
-
-/// Extract the included styles to the data directory.
-pub fn init(data_dir: &Path) -> Result<()> {
-    debug!("data_dir: {}", data_dir.display());
-    if !data_dir.is_dir() {
-        fs::create_dir(data_dir)?;
-        debug!("Created data folder {}", data_dir.display());
-        // Decompress the included styles to data folder.
-        let tar = GzDecoder::new(INCLUDED_STYLES_TAR_GZ);
-        let mut archive = Archive::new(tar);
-        archive.unpack(data_dir)?;
-        debug!("Decompressed styles.");
-    } else {
-        debug!("data_dir '{}' already exists.", data_dir.display());
-    }
-    Ok(())
 }
 
 #[derive(Debug)]
@@ -170,41 +143,16 @@ impl TemplateOptions {
 
 #[cfg(test)]
 mod tests {
-    use std::fs::remove_dir_all;
     use std::str::FromStr;
 
     use super::*;
     use crate::utils::get_data_dir;
-    use ctor;
 
-    static TEST_DIR: &str = "./test_data_dir/";
-
-    #[cfg(test)]
-    #[ctor::ctor]
-    fn setup() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
-        init(&test_dir).unwrap();
-    }
-
-    #[cfg(test)]
-    #[ctor::dtor]
-    fn teardown() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
-        if test_dir.is_dir() {
-            remove_dir_all(&test_dir).unwrap();
-            debug!("Removed: {}", test_dir.display());
-        }
-    }
-
-    #[test]
-    fn test_init() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
-        init(&test_dir).unwrap();
-    }
+    static STYLE_DIR: &str = "./styles/";
 
     #[test]
     fn test_fetch() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let test_dir = PathBuf::from_str(STYLE_DIR).unwrap();
         let available_styles = fetch(&test_dir).unwrap();
         assert!(available_styles.len() >= 3);
     }
@@ -218,14 +166,14 @@ mod tests {
 
     #[test]
     fn test_style_from_name() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let test_dir = PathBuf::from_str(STYLE_DIR).unwrap();
         let style = Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
         assert_eq!(style.base_path, test_dir.join("default"));
     }
 
     #[test]
     fn test_style_template_path() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let test_dir = PathBuf::from_str(STYLE_DIR).unwrap();
         let style = Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
         let template_path = style.template_path().unwrap();
         assert_eq!(
@@ -236,7 +184,7 @@ mod tests {
 
     #[test]
     fn style_set_option() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let test_dir = PathBuf::from_str(STYLE_DIR).unwrap();
         let mut style =
             Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
         let entries = vec!["a".to_string(), "b".to_string()];
@@ -247,7 +195,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_style_render_missing_options() {
-        let test_dir = PathBuf::from_str(TEST_DIR).unwrap();
+        let test_dir = PathBuf::from_str(STYLE_DIR).unwrap();
         let style = Style::from_style_name(test_dir.clone(), "default".to_string(), None).unwrap();
         assert!(style.render().is_ok());
     }

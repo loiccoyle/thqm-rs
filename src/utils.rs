@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, Context, Result};
 use dirs::data_dir;
 use image::Luma;
 use qrcode::render::{svg, unicode};
@@ -6,22 +6,22 @@ use qrcode::QrCode;
 
 use std::io::{self, Read};
 use std::path::{Path, PathBuf};
+use std::str::FromStr;
 
 static QRCODE_SIZE: u32 = 256;
 
 /// Determine the system's data directory.
+pub fn get_sys_data_dir() -> Result<PathBuf> {
+    PathBuf::from_str("/usr/share/thqm")
+        .with_context(|| anyhow!("Failed to get system data directory."))
+}
+
+/// Determine the user's data directory.
 pub fn get_data_dir() -> Result<PathBuf> {
     Ok(data_dir()
         .ok_or_else(|| anyhow!("Failed to get default data directory."))?
         .join("thqm"))
 }
-
-/// Determine the system's config directory.
-// pub fn get_config_dir() -> Result<PathBuf> {
-//     Ok(preference_dir()
-//         .ok_or_else(|| anyhow!("Failed to get default config directory."))?
-//         .join("thqm"))
-// }
 
 /// Read stdin.
 pub fn read_stdin() -> Result<String> {

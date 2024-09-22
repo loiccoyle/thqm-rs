@@ -5,6 +5,7 @@ use clap::Parser;
 use log::debug;
 use qrcode::QrCode;
 
+use std::collections::HashMap;
 use std::process::exit;
 use std::vec::Vec;
 
@@ -17,28 +18,59 @@ fn main() -> Result<()> {
     env_logger::init();
 
     let data_dir = utils::get_data_dir()?;
-    // let config_dir = utils::get_config_dir()?;
+    let sys_data_dir = utils::get_sys_data_dir()?;
 
-    // Initialize styles
-    styles::init(&data_dir).with_context(|| format!("Failed to init data dir: {:?}", data_dir))?;
     // Fetch the available styles
-    let all_styles = styles::fetch(&data_dir).context("Failed to fetch available styles")?;
+    let sys_styles = if sys_data_dir.exists() {
+        styles::fetch(&sys_data_dir)
+            .with_context(|| format!("Failed to fetch system styles at {:?}", sys_data_dir))?
+    } else {
+        vec![]
+    };
+    debug!("sys_styles: {:?}", sys_styles);
+    let user_styles = if data_dir.exists() {
+        styles::fetch(&data_dir)
+            .with_context(|| format!("Failed to fetch user styles at {:?}", data_dir))?
+    } else {
+        vec![]
+    };
+    debug!("user_styles: {:?}", user_styles);
+
+    if sys_styles.is_empty() && user_styles.is_empty() {
+        return Err(anyhow!("No styles found."));
+    }
+
+    // deduplicate with user dir having priority
+    let mut all_styles = HashMap::new();
+    [sys_styles, user_styles]
+        .concat()
+        .into_iter()
+        .for_each(|style| {
+            if let Some(name) = style.file_name() {
+                let name_str = name.to_str().unwrap().to_string();
+                all_styles.insert(name_str, style);
+            };
+        });
     debug!("all_styles: {:?}", all_styles);
 
     let args = cli::Arguments::parse();
+
+    let mut style_names: Vec<&String> = all_styles.keys().collect::<Vec<_>>();
+    style_names.sort();
     if args.list_styles {
-        for style in &all_styles {
+        for style in style_names {
             println!("{}", style)
         }
         exit(0)
     }
 
-    if all_styles.contains(&args.style) {
-        debug!("Using style: {}", args.style);
-    } else {
+    if !all_styles.contains_key(&args.style) {
         debug!("No such style: {}", args.style);
         return Err(anyhow!("No such style: {}", args.style));
     }
+
+    let style_path = &all_styles[&args.style];
+    debug!("Using style: {:?} at {:?}", args.style, style_path);
 
     let stdin = utils::read_stdin().context("Failed to read stdin")?;
     debug!("stdin: {:?}", stdin);
@@ -78,9 +110,8 @@ fn main() -> Result<()> {
 
     let server_address = utils::create_url(&ip, args.port);
 
-    let style = styles::Style::from_style_name(
-        data_dir,
-        args.style,
+    let style = styles::Style::new(
+        style_path.clone(),
         Some(styles::TemplateOptions::new(
             args.title,
             args.no_qrcode,
