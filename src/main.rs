@@ -15,6 +15,8 @@ use thqm::styles;
 use thqm::utils;
 
 fn main() -> Result<()> {
+    let args = cli::Arguments::parse();
+
     env_logger::init();
 
     let data_dir = utils::get_data_dir()?;
@@ -52,8 +54,6 @@ fn main() -> Result<()> {
             };
         });
     debug!("all_styles: {:?}", all_styles);
-
-    let args = cli::Arguments::parse();
 
     let mut style_names: Vec<&String> = all_styles.keys().collect::<Vec<_>>();
     style_names.sort();
