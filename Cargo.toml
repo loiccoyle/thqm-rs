@@ -7,11 +7,7 @@ edition = "2021"
 readme = "README.md"
 license = "MIT"
 keywords = ["scripting", "http-server", "dynamic-menu"]
-categories = [
-  "dynamic-menu",
-  "command-line-utilities",
-  "web-programming::http-server",
-]
+categories = ["command-line-utilities", "web-programming::http-server"]
 repository = "https://github.com/loiccoyle/thqm-rs"
 
 [profile.dev]
