@@ -89,41 +89,6 @@ The installation process will install the styles system wide in the `/usr/share/
 
 ```
 $ thqm --help
-A simple HTTP server to serve a dynamic menu web page.
-
-thqm generates a menu based on the standard input and writes selections to standard output.
-
-See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
-
-Basic usage:
-$ echo 'Option 1\nOption 2' | thqm -U |
-    while IFS= read -r sel; do
-      case $sel in
-      'Option 1') echo 'hello';;
-      'Option 2') echo 'world';;
-      *) echo "$sel";;
-      esac
-    done
-
-Usage: thqm [OPTIONS]
-
-Options:
-  -p, --port <PORT>            The port to listen on [default: 8000]
-  -U, --username <USERNAME>    The username to authenticate with
-  -P, --password <PASSWORD>    The password to authenticate with
-  -S, --separator <SEPARATOR>  The entry separator [default: "\n"]
-  -t, --title <TITLE>          The page title [default: thqm]
-  -s, --style <STYLE>          The page style [default: default]
-  -q, --qrcode                 Show the qrcode in terminal
-      --save-qrcode <PATH>     Save the qrcode image to file
-  -u, --url                    Show the page url
-  -o, --oneshot                Shutdown server after first selection
-  -c, --custom-input           Show custom input field
-      --list-styles            List available page styles
-      --no-shutdown            Don't allow the server to be shutdown from the page
-      --no-qrcode              Don't allow the qrcode to be shown in the page
-  -h, --help                   Print help
-  -V, --version                Print version
 ```
 
 <!-- help end -->
