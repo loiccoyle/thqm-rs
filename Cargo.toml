@@ -1,7 +1,7 @@
 [package]
 name = "thqm"
 description = "A simple HTTP server to serve a dynamic menu for your scripts over the network."
-version = "0.3.1"
+version = "0.4.0"
 authors = ["Loic Coyle <loic.coyle@hotmail.fr>"]
 edition = "2021"
 readme = "README.md"
