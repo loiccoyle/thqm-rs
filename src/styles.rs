@@ -148,13 +148,14 @@ mod tests {
     use super::*;
     use crate::utils::get_data_dir;
 
-    static STYLE_DIR: &str = "./styles/";
+    static STYLE_DIR: &str = "./tests/data/styles/";
 
     #[test]
     fn test_fetch() {
         let test_dir = PathBuf::from_str(STYLE_DIR).unwrap();
         let available_styles = fetch(&test_dir).unwrap();
-        assert!(available_styles.len() >= 3);
+        assert!(available_styles.len() == 1);
+        assert!(available_styles == [test_dir.join("default")]);
     }
 
     #[test]

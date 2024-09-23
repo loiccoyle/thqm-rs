@@ -121,7 +121,6 @@ mod tests {
     use log::debug;
     use std::fs;
     use std::fs::remove_dir_all;
-    use std::str::FromStr;
 
     static TEST_DIR: &str = "./utils_test_dir/";
 
