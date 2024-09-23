@@ -73,7 +73,7 @@ The installation process will install the styles system wide in the `/usr/share/
 
 <!-- help start -->
 
-```
+```console
 $ thqm --help
 A simple HTTP server to serve a dynamic menu web page.
 

@@ -84,4 +84,17 @@ push: tag
 
 .PHONY:readme
 readme:
-	@awk -i inplace -v q="\`\`\`" 'BEGIN {p=1} /^<!-- help start -->/{print;print "";print q;print "$$ thqm --help";system("cargo run -- -h");print q;print "";p=0} /^<!-- help end -->/{p=1} p' README.md
+	@awk -i inplace 'BEGIN { in_section = 0 } \
+	/^<!-- help start -->/ { \
+	  in_section = 1; \
+	  print; \
+	  print ""; \
+	  print "```console"; \
+	  print "$$ thqm --help"; \
+	  system("cargo run -- -h"); \
+	  print "```"; \
+	  print ""; \
+	} \
+	/^<!-- help end -->/ { in_section = 0 } \
+	!in_section' README.md
+
