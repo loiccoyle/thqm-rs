@@ -56,7 +56,6 @@ jobs:
       - uses: Swatinem/rust-cache@v2
 
       - name: Publish thqm crate
-        if: needs.release.outputs.strandify--release_created
         run: cargo publish --token ${{ secrets.CARGO_TOKEN }}
 
   readme:
