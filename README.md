@@ -170,6 +170,8 @@ To create your own styles, follow the same file structure as the included styles
 > - MacOS: `$HOME/Library/Application Support`
 > - Windows: `C:\Users\{USER}\AppData\Roaming`
 
+The style [`tera`](https://docs.rs/tera/latest/tera/) template options are documented [here](https://docs.rs/thqm/latest/thqm/styles/struct.TemplateOptions.html).
+
 User provided styles take priority over system wide styles.
 
 If you want to contribute your own styles, please feel free to submit them to the [`thqm-styles`](https://github.com/loiccoyle/thqm-styles) repository.
