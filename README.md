@@ -154,8 +154,22 @@ printf "Option 1\nOption 2" | thqm "$@" | handler
 
 ## 🎨 Styling
 
-`thqm` has a few pre-made menu styles, see the [`thqm-styles`](https://github.com/loiccoyle/thqm-styles) repository. You can also place custom styles in your `${XDG_DATA_DIR}/thqm` folder. User provided styles take priority over system wide styles.
+`thqm` has a few pre-made menu styles, see the [`thqm-styles`](https://github.com/loiccoyle/thqm-styles) repository, which can be installed to your system's user data directory with the `--install-styles` flag.
 
-You can add your own by following the same style structure as those already included.
+To create your own styles, follow the same file structure as the included styles.
 
-Note: `thqm` uses [`tera`](https://docs.rs/tera/latest/tera/) templates to generate the menu.
+| Path                                               | Usage                                                                                                          |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `{DATA_DIR}/thqm/{style_name}`                     | The name of the style is determined by the name of the style's root folder in the user data directory.         |
+| `{DATA_DIR}/thqm/{style_name}/template/index.html` | This file is the [`tera`](https://docs.rs/tera/latest/tera/) template which will be used to generate the menu. |
+| `{DATA_DIR}/thqm/{style_name}/static/`             | This directory holds static resources such as `css`, `js` and image files.                                     |
+
+> The `{DATA_DIR}` directory depends on the OS:
+>
+> - Linux: `${XDG_DATA_HOME}`
+> - MacOS: `$HOME/Library/Application Support`
+> - Windows: `C:\Users\{USER}\AppData\Roaming`
+
+User provided styles take priority over system wide styles.
+
+If you want to contribute your own styles, please feel free to submit them to the [`thqm-styles`](https://github.com/loiccoyle/thqm-styles) repository.
