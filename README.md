@@ -1,4 +1,4 @@
-<h3 align="center">thqm</h1>
+<h3 align="center">thqm</h3>
 <h3 align="center"><img src="https://i.imgur.com/8VpsYG4.png" width="150"></h3>
 <h5 align="center">A simple HTTP server to serve a dynamic menu web page.</h5>
 <p align="center">
