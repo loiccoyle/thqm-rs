@@ -6,8 +6,12 @@ use std::io::Error;
 include!("src/cli.rs");
 
 fn main() -> Result<(), Error> {
-    let completions_dir = env::current_dir()?.join("completions");
+    if std::env::var("DOCS_RS").is_ok() {
+        // exit if running in docs.rs
+        return Ok(());
+    }
 
+    let completions_dir = env::current_dir()?.join("completions");
     let mut cmd = Arguments::command();
 
     for &shell in Shell::value_variants() {
