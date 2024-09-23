@@ -5,7 +5,7 @@ use std::process::exit;
 
 use crate::styles::Style;
 
-/// Starts the rouille server.
+/// Starts the [`rouille`] server.
 pub fn start(
     style: &Style,
     address: &str,

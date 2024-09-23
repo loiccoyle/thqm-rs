@@ -35,8 +35,11 @@ pub fn fetch(data_dir: &Path) -> Result<Vec<PathBuf>> {
 }
 
 #[derive(Debug)]
+/// Represents a `thqm` style.
 pub struct Style {
+    /// Style base path, typically `{DATA_DIR}/thqm/{style_name}`
     pub base_path: PathBuf,
+    /// The styles's [`tera`] template options
     pub template_options: Option<TemplateOptions>,
 }
 
@@ -111,13 +114,20 @@ impl Style {
     }
 }
 
+/// Options for the style's [`tera`] template.
 #[derive(Debug)]
 pub struct TemplateOptions {
+    /// Page title
     pub title: String,
+    /// Disable QR code from menu page
     pub no_qrcode: bool,
+    /// Disable shutdown from menu page
     pub no_shutdown: bool,
+    /// The entries in the menu
     pub entries: Vec<String>,
+    /// The QR code svg data
     pub qrcode_svg: Option<String>,
+    /// Enable a custom input field
     pub custom_input: bool,
 }
 
