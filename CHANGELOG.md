@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/loiccoyle/thqm-rs/compare/thqm-v0.4.0...thqm-v0.4.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* add more docs ([4405963](https://github.com/loiccoyle/thqm-rs/commit/4405963a645bd6a05bca22fdf3420432f9ea9e02))
+* **docs:** include the readme in the docs ([fb94082](https://github.com/loiccoyle/thqm-rs/commit/fb9408295244f303e5586c46709c8df0e4100c86))
+
 ## [0.4.0](https://github.com/loiccoyle/thqm-rs/compare/thqm-v0.3.1...thqm-v0.4.0) (2024-09-23)
 
 
