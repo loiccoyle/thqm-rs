@@ -65,6 +65,7 @@ jobs:
     name: Update readme
     needs:
       - test
+    if: github.event_name == 'push' && github.repository == 'loiccoyle/thqm-rs' && github.ref_name == 'main'
     steps:
       - uses: actions/checkout@v4
         with:
