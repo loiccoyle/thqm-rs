@@ -34,14 +34,20 @@ To compile the binary:
 git clone https://github.com/loiccoyle/thqm-rs
 cd thqm-rs
 cargo build --release
-# OR
-cargo install thqm
 ```
 
 The compiled binary will be located at `./target/release/thqm`.
 Just place this binary somewhere in your `$PATH`.
 
-You'll also need to install some template styles `thqm`.
+Or to install it straight from `cargo`:
+
+```console
+cargo install thqm
+```
+
+Make sure you have `cargo`'s bin folder in your `$PATH`.
+
+You'll also need to install the template styles `thqm` with:
 
 ```console
 thqm --install-styles
