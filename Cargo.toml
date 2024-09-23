@@ -38,6 +38,12 @@ image = { version = "0.25.2", features = [
 ], default-features = false }
 rouille = { version = "3.6.2", default-features = false }
 local-ip-address = "0.6.3"
+reqwest = { version = "0.12.7", features = [
+  "blocking",
+  "default-tls",
+], default-features = false }
+flate2 = "1.0.33"
+tar = { version = "0.4.41", default-features = false }
 
 [dev-dependencies]
 ctor = "0.2.8"

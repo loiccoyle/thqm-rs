@@ -42,6 +42,7 @@ set edit:completion:arg-completer[thqm] = {|@words|
             cand --list-styles 'List available page styles'
             cand --no-shutdown 'Don''t allow the server to be shutdown from the page'
             cand --no-qrcode 'Don''t allow the qrcode to be shown in the page'
+            cand --install-styles 'Download and install styles to the user data directory'
             cand -h 'Print help'
             cand --help 'Print help'
             cand -V 'Print version'

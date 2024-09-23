@@ -39,6 +39,7 @@ _thqm() {
 '--list-styles[List available page styles]' \
 '--no-shutdown[Don'\''t allow the server to be shutdown from the page]' \
 '--no-qrcode[Don'\''t allow the qrcode to be shown in the page]' \
+'--install-styles[Download and install styles to the user data directory]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \

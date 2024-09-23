@@ -19,7 +19,7 @@ _thqm() {
 
     case "${cmd}" in
         thqm)
-            opts="-p -U -P -S -t -s -q -u -o -c -h -V --port --username --password --separator --title --style --qrcode --save-qrcode --url --oneshot --custom-input --list-styles --no-shutdown --no-qrcode --help --version"
+            opts="-p -U -P -S -t -s -q -u -o -c -h -V --port --username --password --separator --title --style --qrcode --save-qrcode --url --oneshot --custom-input --list-styles --no-shutdown --no-qrcode --install-styles --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0

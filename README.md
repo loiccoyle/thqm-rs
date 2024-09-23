@@ -34,40 +34,20 @@ To compile the binary:
 git clone https://github.com/loiccoyle/thqm-rs
 cd thqm-rs
 cargo build --release
+# OR
+cargo install thqm
 ```
 
 The compiled binary will be located at `./target/release/thqm`.
 Just place this binary somewhere in your `$PATH`.
 
-You'll also need to provide `thqm` with some style templates, so copy the included styles to either the system data folder `/usr/share/thqm` or your user data folder `${XDG_DATA_DIR}/thqm`.
+You'll also need to install some template styles `thqm`.
 
 ```console
-# To install system wide
-mkdir -p /usr/share/thqm
-cp -r styles/. /usr/share/thqm
-# To install per user
-mkdir -p ~/.local/share/thqm
-cp -r styles/. ~/.local/share/thqm
+thqm --install-styles
 ```
 
-### Cargo
-
-```console
-cargo install thqm
-```
-
-You'll also need to provide `thqm` with some style templates, so copy the included styles to either the system data folder `/usr/share/thqm` or your user data folder `${XDG_DATA_DIR}/thqm`.
-
-```console
-git clone https://github.com/loiccoyle/thqm-rs
-cd thqm-rs
-# To install system wide
-mkdir -p /usr/share/thqm
-cp -r styles/. /usr/share/thqm
-# To install per user
-mkdir -p ~/.local/share/thqm
-cp -r styles/. ~/.local/share/thqm
-```
+This will install the styles in the user data folder.
 
 ### Arch linux (AUR)
 
@@ -122,6 +102,7 @@ Options:
       --list-styles            List available page styles
       --no-shutdown            Don't allow the server to be shutdown from the page
       --no-qrcode              Don't allow the qrcode to be shown in the page
+      --install-styles         Download and install styles to the user data directory
   -h, --help                   Print help
   -V, --version                Print version
 ```
@@ -167,7 +148,7 @@ printf "Option 1\nOption 2" | thqm "$@" | handler
 
 ## 🎨 Styling
 
-`thqm` comes with a few included menu styles, see the [styles](./styles) folder. You can also place custom styles in your `${XDG_DATA_DIR}/thqm` folder. User provided styles take priority over system wide styles.
+`thqm` has a few pre-made menu styles, see the [`thqm-styles`](https://github.com/loiccoyle/thqm-styles) repository. You can also place custom styles in your `${XDG_DATA_DIR}/thqm` folder. User provided styles take priority over system wide styles.
 
 You can add your own by following the same style structure as those already included.
 

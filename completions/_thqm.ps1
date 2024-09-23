@@ -45,6 +45,7 @@ Register-ArgumentCompleter -Native -CommandName 'thqm' -ScriptBlock {
             [CompletionResult]::new('--list-styles', '--list-styles', [CompletionResultType]::ParameterName, 'List available page styles')
             [CompletionResult]::new('--no-shutdown', '--no-shutdown', [CompletionResultType]::ParameterName, 'Don''t allow the server to be shutdown from the page')
             [CompletionResult]::new('--no-qrcode', '--no-qrcode', [CompletionResultType]::ParameterName, 'Don''t allow the qrcode to be shown in the page')
+            [CompletionResult]::new('--install-styles', '--install-styles', [CompletionResultType]::ParameterName, 'Download and install styles to the user data directory')
             [CompletionResult]::new('-h', '-h', [CompletionResultType]::ParameterName, 'Print help')
             [CompletionResult]::new('--help', '--help', [CompletionResultType]::ParameterName, 'Print help')
             [CompletionResult]::new('-V', '-V ', [CompletionResultType]::ParameterName, 'Print version')

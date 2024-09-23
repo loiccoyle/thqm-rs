@@ -23,6 +23,18 @@ pub fn get_data_dir() -> Result<PathBuf> {
         .join("thqm"))
 }
 
+/// Download styles and extract them to a directory.
+pub fn download_styles_to_dir(dir: &PathBuf) -> Result<()> {
+    let url = "https://github.com/loiccoyle/thqm-styles/releases/latest/download/styles.tar.gz";
+    let resp = reqwest::blocking::get(url).with_context(|| "Failed to download styles.")?;
+    let mut tar = flate2::read::GzDecoder::new(resp);
+    let mut archive = tar::Archive::new(&mut tar);
+    archive
+        .unpack(dir)
+        .with_context(|| format!("Failed to extract downloaded styles to {:?}.", dir))?;
+    Ok(())
+}
+
 /// Read stdin.
 pub fn read_stdin() -> Result<String> {
     let mut buffer = String::new();
@@ -178,5 +190,16 @@ mod tests {
     #[test]
     fn test_get_ip() {
         assert!(get_ip().is_ok());
+    }
+
+    #[test]
+    fn test_download_styles_to_dir() {
+        let test_dir = PathBuf::from_str(TEST_DIR).unwrap().join("styles");
+        assert!(download_styles_to_dir(&test_dir).is_ok());
+
+        assert!(test_dir.is_dir());
+        // make sure there are folders in there
+        let styles = crate::styles::fetch(&test_dir).unwrap();
+        assert!(!styles.is_empty())
     }
 }

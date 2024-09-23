@@ -16,10 +16,13 @@ use thqm::utils;
 
 fn main() -> Result<()> {
     let args = cli::Arguments::parse();
-
     env_logger::init();
 
     let data_dir = utils::get_data_dir()?;
+    if args.install_styles {
+        utils::download_styles_to_dir(&data_dir)?;
+        return Ok(());
+    }
     let sys_data_dir = utils::get_sys_data_dir()?;
 
     // Fetch the available styles

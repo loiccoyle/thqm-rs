@@ -39,13 +39,13 @@ pub struct Arguments {
     #[arg(short = 's', long = "style", default_value = "default")]
     pub style: String,
     /// Show the qrcode in terminal.
-    #[arg(short = 'q', long = "qrcode", default_value_t = false)]
+    #[arg(short = 'q', long = "qrcode")]
     pub show_qrcode: bool,
     /// Save the qrcode image to file.
     #[arg(long, value_name = "PATH")]
     pub save_qrcode: Option<PathBuf>,
     /// Show the page url.
-    #[arg(short = 'u', long = "url", default_value_t = false)]
+    #[arg(short = 'u', long = "url")]
     pub show_url: bool,
     /// Shutdown server after first selection.
     #[arg(short = 'o', long)]
@@ -54,7 +54,7 @@ pub struct Arguments {
     #[arg(short = 'c', long)]
     pub custom_input: bool,
     /// List available page styles.
-    #[arg(long, default_value_t = false)]
+    #[arg(long)]
     pub list_styles: bool,
     /// Don't allow the server to be shutdown from the page.
     #[arg(long, default_value_t = false)]
@@ -62,4 +62,7 @@ pub struct Arguments {
     /// Don't allow the qrcode to be shown in the page.
     #[arg(long, default_value_t = false)]
     pub no_qrcode: bool,
+    /// Download and install styles to the user data directory.
+    #[arg(long)]
+    pub install_styles: bool,
 }
