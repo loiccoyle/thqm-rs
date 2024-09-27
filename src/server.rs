@@ -1,11 +1,11 @@
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, Context, Result};
 use log::*;
 use rouille::{input, match_assets, router, Request, Response, Server};
 use std::process::exit;
 
 use crate::styles::Style;
 
-/// Starts the [`rouille`] server.
+/// Starts the [`rouille`] web server.
 pub fn start(
     style: &Style,
     address: &str,
@@ -17,8 +17,8 @@ pub fn start(
     let style_base_path = style
         .base_path
         .to_str()
-        .ok_or_else(|| {
-            anyhow!(
+        .with_context(|| {
+            format!(
                 "Could not convert style base path {:?} to str.",
                 style.base_path
             )
@@ -26,10 +26,8 @@ pub fn start(
         .to_owned();
 
     let server = Server::new(address, move |request| {
-        if login.is_some() && password.is_some() {
-            if let Some(rep) =
-                handle_auth(request, login.as_ref().unwrap(), password.as_ref().unwrap())
-            {
+        if let (Some(login), Some(password)) = (&login, &password) {
+            if let Some(rep) = handle_auth(request, login, password) {
                 return rep;
             }
         }
@@ -60,7 +58,8 @@ pub fn start(
         }
         )
     })
-    .expect("Failed to init the server");
+    .map_err(|_| anyhow!("Failed to init the server"))?;
+
     server.run();
     Ok(())
 }

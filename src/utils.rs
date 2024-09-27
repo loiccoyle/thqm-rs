@@ -73,11 +73,11 @@ pub fn create_full_url(
     username: Option<&str>,
     password: Option<&str>,
 ) -> String {
-    if username.is_some() && password.is_some() {
+    if let (Some(username), Some(password)) = (username, password) {
         format!(
             "http://{username}:{password}@{host}:{port}",
-            username = username.unwrap(),
-            password = password.unwrap(),
+            username = username,
+            password = password,
             host = host,
             port = port
         )
