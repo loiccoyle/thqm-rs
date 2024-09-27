@@ -79,7 +79,7 @@ A simple HTTP server to serve a dynamic menu web page.
 
 thqm generates a menu based on the standard input and writes selections to standard output.
 
-See https://github.com/loiccoyle/thqm-rs/tree/main/examples for full scripts.
+See https://github.com/loiccoyle/thqm-rs/tree/main/examples for script examples.
 
 Basic usage:
 $ echo 'Option 1\nOption 2' | thqm -U |
