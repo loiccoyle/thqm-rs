@@ -4,6 +4,7 @@ complete -c thqm -s P -l password -d 'The password to authenticate with' -r
 complete -c thqm -s S -l separator -d 'The entry separator' -r
 complete -c thqm -s t -l title -d 'The page title' -r
 complete -c thqm -s s -l style -d 'The page style' -r
+complete -c thqm -l style-dir -d 'Specify style with its root directory' -r -F
 complete -c thqm -l save-qrcode -d 'Save the qrcode image to file' -r -F
 complete -c thqm -s q -l qrcode -d 'Show the qrcode in terminal'
 complete -c thqm -s u -l url -d 'Show the page url'

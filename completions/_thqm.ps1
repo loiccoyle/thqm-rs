@@ -33,6 +33,7 @@ Register-ArgumentCompleter -Native -CommandName 'thqm' -ScriptBlock {
             [CompletionResult]::new('--title', '--title', [CompletionResultType]::ParameterName, 'The page title')
             [CompletionResult]::new('-s', '-s', [CompletionResultType]::ParameterName, 'The page style')
             [CompletionResult]::new('--style', '--style', [CompletionResultType]::ParameterName, 'The page style')
+            [CompletionResult]::new('--style-dir', '--style-dir', [CompletionResultType]::ParameterName, 'Specify style with its root directory')
             [CompletionResult]::new('--save-qrcode', '--save-qrcode', [CompletionResultType]::ParameterName, 'Save the qrcode image to file')
             [CompletionResult]::new('-q', '-q', [CompletionResultType]::ParameterName, 'Show the qrcode in terminal')
             [CompletionResult]::new('--qrcode', '--qrcode', [CompletionResultType]::ParameterName, 'Show the qrcode in terminal')

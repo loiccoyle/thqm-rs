@@ -79,7 +79,7 @@ A simple HTTP server to serve a dynamic menu web page.
 
 thqm generates a menu based on the standard input and writes selections to standard output.
 
-See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
+See https://github.com/loiccoyle/thqm-rs/tree/main/examples for full scripts.
 
 Basic usage:
 $ echo 'Option 1\nOption 2' | thqm -U |
@@ -100,6 +100,7 @@ Options:
   -S, --separator <SEPARATOR>  The entry separator [default: "\n"]
   -t, --title <TITLE>          The page title [default: thqm]
   -s, --style <STYLE>          The page style [default: default]
+      --style-dir <PATH>       Specify style with its root directory
   -q, --qrcode                 Show the qrcode in terminal
       --save-qrcode <PATH>     Save the qrcode image to file
   -u, --url                    Show the page url

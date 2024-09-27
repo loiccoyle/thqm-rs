@@ -30,6 +30,7 @@ set edit:completion:arg-completer[thqm] = {|@words|
             cand --title 'The page title'
             cand -s 'The page style'
             cand --style 'The page style'
+            cand --style-dir 'Specify style with its root directory'
             cand --save-qrcode 'Save the qrcode image to file'
             cand -q 'Show the qrcode in terminal'
             cand --qrcode 'Show the qrcode in terminal'

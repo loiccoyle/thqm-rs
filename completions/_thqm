@@ -27,6 +27,7 @@ _thqm() {
 '--title=[The page title]:TITLE: ' \
 '-s+[The page style]:STYLE: ' \
 '--style=[The page style]:STYLE: ' \
+'--style-dir=[Specify style with its root directory]:PATH:_files' \
 '--save-qrcode=[Save the qrcode image to file]:PATH:_files' \
 '-q[Show the qrcode in terminal]' \
 '--qrcode[Show the qrcode in terminal]' \

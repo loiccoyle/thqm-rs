@@ -8,7 +8,7 @@ use std::path::PathBuf;
 
 thqm generates a menu based on the standard input and writes selections to standard output.
 
-See https://github.com/loiccoyle/thqm.rs/tree/main/examples for full scripts.
+See https://github.com/loiccoyle/thqm-rs/tree/main/examples for script examples.
 
 Basic usage:
 $ echo 'Option 1\\nOption 2' | thqm -U |
@@ -38,6 +38,9 @@ pub struct Arguments {
     /// The page style.
     #[arg(short = 's', long = "style", default_value = "default")]
     pub style: String,
+    /// Specify style with its root directory.
+    #[arg(long, value_name = "PATH")]
+    pub style_dir: Option<PathBuf>,
     /// Show the qrcode in terminal.
     #[arg(short = 'q', long = "qrcode")]
     pub show_qrcode: bool,

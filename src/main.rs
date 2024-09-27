@@ -41,22 +41,31 @@ fn main() -> Result<()> {
     };
     debug!("user_styles: {:?}", user_styles);
 
-    if sys_styles.is_empty() && user_styles.is_empty() {
+    let mut style_paths = [sys_styles, user_styles].concat();
+    let chosen_style = match args.style_dir {
+        Some(style_dir) if styles::is_style(&style_dir) => {
+            style_paths.push(style_dir.clone());
+            style_dir
+                .file_name()
+                .and_then(|name| name.to_str())
+                .ok_or_else(|| anyhow!("Invalid style dir: {:?}", style_dir))?
+                .to_string()
+        }
+        Some(_) => return Err(anyhow!("Invalid style dir: {:?}", args.style_dir)),
+        None => args.style,
+    };
+
+    // deduplicate
+    let mut all_styles = HashMap::new();
+    style_paths.into_iter().for_each(|style| {
+        if let Some(name) = style.file_name().and_then(|name| name.to_str()) {
+            all_styles.insert(name.to_string(), style);
+        };
+    });
+    debug!("all_styles: {:?}", all_styles);
+    if all_styles.is_empty() {
         return Err(anyhow!("No styles found."));
     }
-
-    // deduplicate with user dir having priority
-    let mut all_styles = HashMap::new();
-    [sys_styles, user_styles]
-        .concat()
-        .into_iter()
-        .for_each(|style| {
-            if let Some(name) = style.file_name() {
-                let name_str = name.to_str().unwrap().to_string();
-                all_styles.insert(name_str, style);
-            };
-        });
-    debug!("all_styles: {:?}", all_styles);
 
     let mut style_names: Vec<&String> = all_styles.keys().collect::<Vec<_>>();
     style_names.sort();
@@ -67,13 +76,13 @@ fn main() -> Result<()> {
         exit(0)
     }
 
-    if !all_styles.contains_key(&args.style) {
-        debug!("No such style: {}", args.style);
-        return Err(anyhow!("No such style: {}", args.style));
+    if !all_styles.contains_key(&chosen_style) {
+        debug!("No such style: {}", chosen_style);
+        return Err(anyhow!("No such style: {}", chosen_style));
     }
 
-    let style_path = &all_styles[&args.style];
-    debug!("Using style: {:?} at {:?}", args.style, style_path);
+    let style_path = &all_styles[&chosen_style];
+    debug!("Using style: {:?} at {:?}", chosen_style, style_path);
 
     let stdin = utils::read_stdin().context("Failed to read stdin")?;
     debug!("stdin: {:?}", stdin);
@@ -114,7 +123,7 @@ fn main() -> Result<()> {
     let server_address = utils::create_url(&ip, args.port);
 
     let style = styles::Style::new(
-        style_path.clone(),
+        style_path.to_owned(),
         Some(styles::TemplateOptions::new(
             args.title,
             args.no_qrcode,
