@@ -20,6 +20,7 @@ fn main() -> Result<()> {
 
     let data_dir = utils::get_data_dir()?;
     if args.install_styles {
+        println!("Installing styles to {:?}", data_dir);
         utils::download_styles_to_dir(&data_dir)?;
         return Ok(());
     }
@@ -64,7 +65,9 @@ fn main() -> Result<()> {
     });
     debug!("all_styles: {:?}", all_styles);
     if all_styles.is_empty() {
-        return Err(anyhow!("No styles found."));
+        return Err(anyhow!(
+            "No styles found, consider using '--install-styles' to download and install styles."
+        ));
     }
 
     let mut style_names: Vec<&String> = all_styles.keys().collect::<Vec<_>>();
