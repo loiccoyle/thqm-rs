@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/loiccoyle/thqm-rs/compare/thqm-v0.4.1...thqm-v0.5.0) (2024-09-28)
+
+
+### Features
+
+* add `--style-dir` flag ([24f35fa](https://github.com/loiccoyle/thqm-rs/commit/24f35fa830a4361b660e451e34bf6e9970ca82c2))
+
+
+### Bug Fixes
+
+* suggest `--install-styles` when no styles are found & print styles location on install ([fd3798e](https://github.com/loiccoyle/thqm-rs/commit/fd3798ee42021cfc551099689c2648b4d032fa1c))
+
 ## [0.4.1](https://github.com/loiccoyle/thqm-rs/compare/thqm-v0.4.0...thqm-v0.4.1) (2024-09-23)
 
 
