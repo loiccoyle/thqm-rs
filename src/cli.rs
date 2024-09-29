@@ -11,7 +11,7 @@ thqm generates a menu based on the standard input and writes selections to stand
 See https://github.com/loiccoyle/thqm-rs/tree/main/examples for script examples.
 
 Basic usage:
-$ echo 'Option 1\\nOption 2' | thqm -U |
+$ echo 'Option 1\\nOption 2' | thqm -u |
     while IFS= read -r sel; do
       case $sel in
       'Option 1') echo 'hello';;
