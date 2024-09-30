@@ -16,7 +16,8 @@
 > `thqm` takes its name from the arabic تحكم, pronounced tahakoom, meaning control.
 
 `thqm` is a nifty little command line utility. It dynamically generates a web page menu based on the provided `stdin` and outputs any selections to `stdout`.
-In a sense, it functions similarly to [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but the menu is web page served on the local network.
+
+In a sense, it functions similarly to [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but the menu is a web page served on the local network.
 
 This makes it perfect to control scripts over the network.
 
