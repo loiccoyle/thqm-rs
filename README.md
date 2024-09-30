@@ -1,6 +1,6 @@
 <h3 align="center">thqm</h3>
 <h3 align="center"><img src="https://i.imgur.com/8VpsYG4.png" width="150"></h3>
-<h5 align="center">A simple HTTP server to serve a dynamic menu web page.</h5>
+<h5 align="center">A command line utility to generate and serve a dynamic menu web page.</h5>
 <p align="center">
   <a href="https://github.com/loiccoyle/thqm-rs/actions/workflows/ci.yml"><img src="https://github.com/loiccoyle/thqm-rs/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://crates.io/crates/thqm"><img src="https://img.shields.io/crates/v/thqm.svg"></a>
@@ -15,7 +15,7 @@
 
 > `thqm` takes its name from the arabic تحكم, pronounced tahakoom, meaning control.
 
-`thqm` is a nifty little HTTP server. It dynamically generates a web page menu based on the provided `stdin` and outputs any selections to `stdout`.
+`thqm` is a nifty little command line utility. It dynamically generates a web page menu based on the provided `stdin` and outputs any selections to `stdout`.
 In a sense, it functions similarly to [`dmenu`](https://tools.suckless.org/dmenu/)/[`rofi`](https://github.com/davatorium/rofi) but the menu is web page served on the local network.
 
 This makes it perfect to control scripts over the network.
