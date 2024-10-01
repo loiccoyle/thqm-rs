@@ -39,13 +39,13 @@ pub struct Arguments {
     #[arg(short = 's', long = "style", default_value = "default")]
     pub style: String,
     /// Specify style with its root directory.
-    #[arg(long, value_name = "PATH")]
+    #[arg(long, value_name = "PATH", value_hint = clap::ValueHint::DirPath)]
     pub style_dir: Option<PathBuf>,
     /// Show the qrcode in terminal.
     #[arg(short = 'q', long = "qrcode")]
     pub show_qrcode: bool,
     /// Save the qrcode image to file.
-    #[arg(long, value_name = "PATH")]
+    #[arg(long, value_name = "PATH", value_hint = clap::ValueHint::FilePath)]
     pub save_qrcode: Option<PathBuf>,
     /// Show the page url.
     #[arg(short = 'u', long = "url")]
