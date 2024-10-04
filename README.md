@@ -48,7 +48,7 @@ cargo install thqm
 
 Make sure you have `cargo`'s bin folder in your `$PATH`.
 
-You'll also need to install the template styles `thqm` with:
+You'll also need to install the [template styles](https://github.com/loiccoyle/thqm-styles) with:
 
 ```console
 thqm --install-styles
