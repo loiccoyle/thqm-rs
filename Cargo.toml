@@ -25,8 +25,8 @@ name = "thqm"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.14", features = ["derive"] }
-clap-verbosity-flag = "2.2.1"
+clap = { version = "4.5.19", features = ["derive"] }
+clap-verbosity-flag = "2.2.2"
 
 dirs = "5.0.1"
 anyhow = "1.0.89"
@@ -40,12 +40,12 @@ image = { version = "0.25.2", features = [
 ], default-features = false }
 rouille = { version = "3.6.2", default-features = false }
 local-ip-address = "0.6.3"
-reqwest = { version = "0.12.7", features = [
+reqwest = { version = "0.12.8", features = [
   "blocking",
   "default-tls",
 ], default-features = false }
-flate2 = "1.0.33"
-tar = { version = "0.4.41", default-features = false }
+flate2 = "1.0.34"
+tar = { version = "0.4.42", default-features = false }
 
 [dev-dependencies]
 ctor = "0.2.8"
@@ -55,6 +55,6 @@ assert_fs = "1.0.7"
 reqwest = { version = "0.12.7", features = ["blocking"] }
 
 [build-dependencies]
-clap = { version = "4.5.17", features = ["derive"] }
-clap_complete = { version = "4.5.6" }
-clap-verbosity-flag = "2.2.1"
+clap = { version = "4.5.19", features = ["derive"] }
+clap_complete = { version = "4.5.32" }
+clap-verbosity-flag = "2.2.2"
