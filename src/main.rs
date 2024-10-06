@@ -16,7 +16,9 @@ use thqm::utils;
 
 fn main() -> Result<()> {
     let args = cli::Arguments::parse();
-    env_logger::init();
+    env_logger::Builder::new()
+        .filter_level(args.verbose.log_level_filter())
+        .init();
 
     let data_dir = utils::get_data_dir()?;
     if args.install_styles {

@@ -1,4 +1,5 @@
 use clap::Parser;
+use clap_verbosity_flag::Verbosity;
 
 use std::path::PathBuf;
 
@@ -42,7 +43,7 @@ pub struct Arguments {
     #[arg(long, value_name = "PATH", value_hint = clap::ValueHint::DirPath)]
     pub style_dir: Option<PathBuf>,
     /// Show the qrcode in terminal.
-    #[arg(short = 'q', long = "qrcode")]
+    #[arg(short = 'Q', long = "qrcode")]
     pub show_qrcode: bool,
     /// Save the qrcode image to file.
     #[arg(long, value_name = "PATH", value_hint = clap::ValueHint::FilePath)]
@@ -68,4 +69,6 @@ pub struct Arguments {
     /// Download and install styles to the user data directory.
     #[arg(long)]
     pub install_styles: bool,
+    #[command(flatten)]
+    pub verbose: Verbosity,
 }

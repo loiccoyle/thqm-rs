@@ -29,7 +29,7 @@ _thqm() {
 '--style=[The page style]:STYLE: ' \
 '--style-dir=[Specify style with its root directory]:PATH:_files -/' \
 '--save-qrcode=[Save the qrcode image to file]:PATH:_files' \
-'-q[Show the qrcode in terminal]' \
+'-Q[Show the qrcode in terminal]' \
 '--qrcode[Show the qrcode in terminal]' \
 '-u[Show the page url]' \
 '--url[Show the page url]' \
@@ -41,6 +41,10 @@ _thqm() {
 '--no-shutdown[Don'\''t allow the server to be shutdown from the page]' \
 '--no-qrcode[Don'\''t allow the qrcode to be shown in the page]' \
 '--install-styles[Download and install styles to the user data directory]' \
+'*-v[Increase logging verbosity]' \
+'*--verbose[Increase logging verbosity]' \
+'(-v --verbose)*-q[Decrease logging verbosity]' \
+'(-v --verbose)*--quiet[Decrease logging verbosity]' \
 '-h[Print help]' \
 '--help[Print help]' \
 '-V[Print version]' \

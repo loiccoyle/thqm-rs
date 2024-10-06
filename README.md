@@ -102,7 +102,7 @@ Options:
   -t, --title <TITLE>          The page title [default: thqm]
   -s, --style <STYLE>          The page style [default: default]
       --style-dir <PATH>       Specify style with its root directory
-  -q, --qrcode                 Show the qrcode in terminal
+  -Q, --qrcode                 Show the qrcode in terminal
       --save-qrcode <PATH>     Save the qrcode image to file
   -u, --url                    Show the page url
   -o, --oneshot                Shutdown server after first selection
@@ -111,6 +111,8 @@ Options:
       --no-shutdown            Don't allow the server to be shutdown from the page
       --no-qrcode              Don't allow the qrcode to be shown in the page
       --install-styles         Download and install styles to the user data directory
+  -v, --verbose...             Increase logging verbosity
+  -q, --quiet...               Decrease logging verbosity
   -h, --help                   Print help
   -V, --version                Print version
 ```
