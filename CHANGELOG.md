@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://github.com/loiccoyle/thqm-rs/compare/thqm-v0.5.0...thqm-v0.6.0) (2024-10-06)
+
+
+### Features
+
+* add verbosity control ([a96a6e3](https://github.com/loiccoyle/thqm-rs/commit/a96a6e3af3f54f9e47ecfdcb95f1ac98cdb10d94))
+
+
+### Bug Fixes
+
+* add missing `value_hint` for path args ([ad8869c](https://github.com/loiccoyle/thqm-rs/commit/ad8869c5db1f0f1a94bc529cf99bd039ade571cb))
+* help message using wrong flag ([2f369ae](https://github.com/loiccoyle/thqm-rs/commit/2f369ae8dfaaa2ec2eb2491632baeafa017c50ab))
+
 ## [0.5.0](https://github.com/loiccoyle/thqm-rs/compare/thqm-v0.4.1...thqm-v0.5.0) (2024-09-28)
 
 
